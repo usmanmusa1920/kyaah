@@ -9,7 +9,7 @@ setup(
   name='kyaah',
   version='0.1',
   
-  description='An OSINT tool for IT ninjas',
+  description='Mail library that abstract away complexity of setting up mail server',
   long_description=open('README.md').read() + '\n\n' + open('CHANGELOG').read(),
   long_description_content_type="text/markdown",
   
@@ -46,8 +46,5 @@ setup(
   include_package_data = True, # include files listed in MANIFEST.in
   
   # List of other python modules which this module depends on.  For example RPi.GPIO
-  install_requires=[
-    'folium==0.13.0', 'phonenumbers==8.13.0', 'geocoder==1.38.1',
-    'python-whois==0.8.0', 'termcolor==2.1.0'
-    ]
+  install_requires=['geocoder==1.38.1']
 )

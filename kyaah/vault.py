@@ -19,5 +19,5 @@ class Vault(BaseMail):
   @property
   def mail_passwd_env(self):
     """get sender mail password/app_password from environment variable"""
-    return self.maill_passwd
+    return self.mail_passwd
 

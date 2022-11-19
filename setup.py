@@ -7,7 +7,7 @@ setup(
   
   # name of the main package (kyaah)
   name='kyaah',
-  version='0.1',
+  version='0.0.2',
   
   description='Mail library that abstract away complexity of setting up mail server',
   long_description=open('README.md').read() + '\n\n' + open('CHANGELOG').read(),

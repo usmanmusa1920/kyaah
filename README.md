@@ -106,12 +106,7 @@ Mail library that abstract away complexity of setting up mail server
       >>>    base.mail_with_page(file='default', port=465)
       ------------------------------------------------------------------------------------------------------
       
-  ####   ######   ####   #    #  #####      #     #####   #   #
- #       #       #    #  #    #  #    #     #       #      # #
-  ####   #####   #       #    #  #    #     #       #       #
-      #  #       #       #    #  #####      #       #       #
- #    #  #       #    #  #    #  #   #      #       #       #
-  ####   ######   ####    ####   #    #     #       #       #
+      # SECURITY
       
       FOR SECURITY REASON
       we provide you a class called `Vault`. This class will look your email address and password/app_password in your sysytem environment variable. And you don't need to change anything in your code, all the mothods is thesame. Look more for this class in your interpreter by calling the  '''help(Vault)'''  Use this class in production instead of the  '''BaseMail'''  class. example:
@@ -134,13 +129,8 @@ Mail library that abstract away complexity of setting up mail server
       >>>    base.send_mail(port=465)
       ------------------------------------------------------------------------------------------------------
       
-  #####   ####   #    #  ######  #    #   ####
-    #    #    #  #   #   #       ##   #  #
-    #    #    #  ####    #####   # #  #   ####
-    #    #    #  #  #    #       #  # #       #
-    #    #    #  #   #   #       #   ##  #    #
-    #     ####   #    #  ######  #    #   ####
-    
+      # TOKENS
+      
       There is a OTP code feature if you want to send an OTP code for verification by:
       >>>  from kyaah import Tokens
       

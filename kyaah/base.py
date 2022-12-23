@@ -113,6 +113,23 @@ class BaseMail:
         smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
       
       
+  def file_to_send(self, file_to, f_opration, _msg=None, maintype=None):
+    # maintype = "image" for sending image
+    # maintype = "application" for sending files like pdf
+    
+    if maintype == "application":
+      with open(file_to, f_opration) as file_send:
+        f_read = file_send.read()
+        f_name = file_send.name
+      _msg.add_attachment(f_read, maintype=maintype, subtype='octet-stream', filename=f_name)
+    if maintype == "image":
+      with open(file_to, f_opration) as img_send:
+        img_read = img_send.read()
+        f_type = imghdr.what(img_send.name)
+        f_name = img_send.name
+      _msg.add_attachment(img_read, maintype=maintype, subtype=f_type, filename=f_name)
+    
+    
   def mail_with_image(self, image, port=25):
     """send mail together with an image"""
     
@@ -129,19 +146,15 @@ class BaseMail:
         msg.set_content(self.mail_msg.split('\n')[2])
         
         if type(image) == list:
+          """send message with morethan one image"""
+          
           for my_img in image:
-            with open(my_img, 'rb') as img_send:
-              img_read = img_send.read()
-              f_type = imghdr.what(img_send.name)
-              f_name = img_send.name
-            msg.add_attachment(img_read, maintype='image', subtype=f_type, filename=f_name)
+            self.file_to_send(my_img, "rb", _msg=msg, maintype="image")
           self.mail_open(msg, port)
         elif type(image) == str:
-          with open(image, 'rb') as img_send:
-            img = img_send.read()
-            f_type = imghdr.what(img_send.name)
-            f_name = img_send.name
-          msg.add_attachment(img, maintype='image', subtype=f_type, filename=f_name)
+          """send message with one image"""
+          
+          self.file_to_send(image, "rb", _msg=msg, maintype="image")
           self.mail_open(msg, port)
         else:
           logger.error(f"only list or string can be pass as argument in {self.mail_with_image}")
@@ -151,19 +164,15 @@ class BaseMail:
       msg.set_content(self.mail_msg.split('\n')[2])
       
       if type(image) == list:
+        """send message with morethan one image, for only one destination"""
+        
         for my_img in image:
-          with open(my_img, 'rb') as img_send:
-            img_read = img_send.read()
-            f_type = imghdr.what(img_send.name)
-            f_name = img_send.name
-          msg.add_attachment(img_read, maintype='image', subtype=f_type, filename=f_name)
+          self.file_to_send(my_img, "rb", _msg=msg, maintype="image")
         self.mail_open(msg, port)
       elif type(image) == str:
-        with open(image, 'rb') as img_send:
-          img = img_send.read()
-          f_type = imghdr.what(img_send.name)
-          f_name = img_send.name
-        msg.add_attachment(img, maintype='image', subtype=f_type, filename=f_name)
+        """send message with one image, for only one destination"""
+        
+        self.file_to_send(image, "rb", _msg=msg, maintype="image")
         self.mail_open(msg, port)
       else:
         logger.error(f"only list or string can be pass as argument in {self.mail_with_image}")
@@ -179,10 +188,7 @@ class BaseMail:
     msg.set_content(self.mail_msg.split('\n')[2])
     
     for a_file in mail_files:
-      with open(a_file, 'rb') as file_send:
-        f_read = file_send.read()
-        f_name = file_send.name
-      msg.add_attachment(f_read, maintype='application', subtype='octet-stream', filename=f_name)
+      self.file_to_send(a_file, "rb", _msg=msg, maintype="application")
     self.mail_open(msg, port)
     
     

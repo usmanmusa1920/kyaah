@@ -39,11 +39,9 @@ To find information about a domain name run the file like:
 `python3 test.py`
 
 
-## Github and docker repository:
+## Github repository:
 
 - https://github.com/usmanmusa1920/kyaah
 
 
 Pull requests are welcome
-
-![DiPense at a glance](https://raw.githubusercontent.com/usmanmusa1920/dipense/master/screen-shot.png)

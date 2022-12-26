@@ -6,6 +6,11 @@ server = {
     "port": [465]
   },
   
+  "local": {
+    "server": ["localhost"],
+    "port": [1025]
+  },
+  
   "yahoo": {
     "server": ["smtp.mail.yahoo.com", "pop.mail.yahoo.com", "imap.mail.yahoo.com"],
     "port": [465, 587, 995, 993]

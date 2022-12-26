@@ -1,17 +1,34 @@
 
 from . import Serve
-from . import BaseMail
 from . import Vault
+from . import BaseMail
 
 
 def send():
   pass
 
 
+def localMail(svr=None, env=False, port=False, **kwargs):
+  s_mail = Serve.mail(svr)
+  if env:
+    cls = Vault
+  else:
+    cls = BaseMail
+  base = cls(
+    # slicing the first index of the server list, even though it's only one item
+    server = s_mail["server"][0], **kwargs
+    )
+  # slicing the first index of the port list, even though it's only one item
+  if port:
+    base.local_mail(port=port)
+  else:
+    base.local_mail()
+
+
 def sendMail(svr=None, env=False, **kwargs):
   r"""send a simple SMTP mail
   :svr: this is the type of the sender mail, for google -> gmail, for yahoo -> yahoo, etc
-  
+
   USAGE:
 
     >>> import kyaah

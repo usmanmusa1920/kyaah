@@ -90,7 +90,7 @@ class BaseMail:
       
   def local_mail(self, port=1025):
     """localhost mail"""
-    with smtplib.SMTP("localhost", port) as smtp:
+    with smtplib.SMTP(self.server, port) as smtp:
       smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
       
       

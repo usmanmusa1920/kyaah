@@ -13,7 +13,7 @@ Simplify your email message with `kyaah`
 # How to use the library
 First we recommend creating a virtual environment `python3 -m venv venv` and then activate it `source venv/bin/activate`
 
-Once that finish now install the library using `pip install dipense` and wait for the installation basically the library was uploaded using `sdist` (Source Distribution)
+Once that finish now install the library using `pip install kyaah` and wait for the installation basically the library was uploaded using `sdist` (Source Distribution)
 
 After that create a new file let call it `test.py` in the file put the below code
 

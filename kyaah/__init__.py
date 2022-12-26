@@ -1,3 +1,46 @@
+# -*- coding: utf-8 -*-
+
+#   __
+#  /__)  _  _     _   _ _/   _
+# / (   (- (/ (/ (- _)  /  _)
+#          /
+class mapp:
+    pass
+"""
+Requests HTTP Library
+~~~~~~~~~~~~~~~~~~~~~
+
+Requests is an HTTP library, written in Python, for human beings.
+Basic GET usage:
+
+   >>> import requests
+   >>> r = requests.get('https://www.python.org')
+   >>> r.status_code
+   200
+   >>> b'Python is a programming language' in r.content
+   True
+
+... or POST:
+
+   >>> payload = dict(key1='value1', key2='value2')
+   >>> r = requests.post('https://httpbin.org/post', data=payload)
+   >>> print(r.text)
+   {
+     ...
+     "form": {
+       "key1": "value1",
+       "key2": "value2"
+     },
+     ...
+   }
+
+The other HTTP methods are supported - see `requests.api`. Full documentation
+is at <https://requests.readthedocs.io>.
+
+:copyright: (c) 2017 by Kenneth Reitz.
+:license: Apache 2.0, see LICENSE for more details.
+"""
+
 
 """
         #    #   #   #    ##      ##    #    #
@@ -18,76 +61,6 @@ __copyright__ = "Copyright 2022 Usman Musa"
 
 
 """
-      NOTE:
-          in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465
-          
-          
-      To tests your mail locally, boot up the python mail server on a different terminal by:
-      $:/~    `python3 -m smtpd -c DebuggingServer -n localhost:7000`
-          
-      and then open another terminal and run your python script including the below code in it:
-      >>>    import 
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum voluptate ipsum voluptatum doloribus, incidunt totam doloremque."
-      
-      >>>    kyaah.localMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      ------------------------------------------------------------------------------------------------------
-      To send a text mail to someone:
-          
-      >>>    import kyaah
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-      
-      >>>    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      ------------------------------------------------------------------------------------------------------
-      To send a text mail together with an image:
-      >>>    import kyaah
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-      
-      >>>    images="my_image.jpg"
-      >>>    kyaah.sendImages(images=images, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-          
-      If you want to send more than one image, make a list of the images like:
-      >>>    images=['image_1.jpg', 'image_2.jpg']
-      >>>    kyaah.sendImages(images=images, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      ------------------------------------------------------------------------------------------------------
-      To send mail together with files, pass a list of the files you want to send as an argument in the `mail_with_file` method like:
-      >>>    import kyaah
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-      
-      >>>    files=['em.py', 'test.py', '/home/usman/Desktop/media/Usman.jpg']
-      >>>    kyaah.sendFiles(files=files, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      ------------------------------------------------------------------------------------------------------
-      To send mail together with html page call the `mail_with_page` method and pass a keyword args `file` with a value of the absolute location of your html file in the `mail_with_page` method, like:
-      
-      >>>    import kyaah
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-      
-      >>>    kyaah.sendPage(page='index.html', from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      
-      If you want to test, we provide you with a test feature which in short is to negate the `page` keyword argument like:
-      >>>    kyaah.sendPage(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
-      ------------------------------------------------------------------------------------------------------
-      
-  ####   ######   ####   #    #  #####      #     #####   #   #
- #       #       #    #  #    #  #    #     #       #      # #
-  ####   #####   #       #    #  #    #     #       #       #
-      #  #       #       #    #  #####      #       #       #
- #    #  #       #    #  #    #  #   #      #       #       #
-  ####   ######   ####    ####   #    #     #       #       #
-      
-      FOR SECURITY REASON
-      we provide you a keyword called `env` to be true. This keyword will look your email address and password/app_password in your sysytem environment variable. And you don't need to change anything in your code, all the mothods is thesame. Look more for this class in your interpreter by calling the  '''help(Vault)'''  Use this class in production instead of the  '''BaseMail'''  class. example:
-      
-      >>>    import kyaah
-      >>>    subj = f"Hellow world!"
-      >>>    body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-      
-      >>>    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd, env=True)
-      ------------------------------------------------------------------------------------------------------
       
   #####   ####   #    #  ######  #    #   ####
     #    #    #  #   #   #       ##   #  #

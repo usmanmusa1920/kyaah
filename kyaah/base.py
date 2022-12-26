@@ -14,7 +14,11 @@ logger.setLevel(logging.DEBUG)
 
 
 class BaseMail:
-  """The base class for mail"""
+  """The base class for mail
+
+  NOTE:
+    in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465, although kyaah has a dict tionary of server, where each server has a list of ports, SMTP server, etc.
+  """
   
   def __init__(
     self,

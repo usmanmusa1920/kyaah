@@ -59,7 +59,7 @@ from kyaah import otp
 print(otp(12))
 ```
 
-## Kyaah with token
+## Kyaah with faker
 Use `Faker` for giving you a random email address
 
     ######    ##    #    #  ######  #####

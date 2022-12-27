@@ -1,9 +1,9 @@
 import kyaah
+from kyaah import fk, otp
 
 
 subj = f"Hellow world! from kyaah"
 body = "Lorem ipsum dolor sit amet consectetur adipisicing elit, rerum voluptate ipsum volupt."
-
 
 mail_serve="gmail"
 sender = "my_email@gmail.com"
@@ -16,12 +16,13 @@ receiver = ["another_email@gmail.com", "my_email@gmail.com"]
 """
 
 
+"""local mail"""
+# kyaah.localMail(from_usr=sender, to_usr=receiver, svr="local", subject=subj, body=body, mail_passwd=passwd)
 
 """plain mail"""
 kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 
 """mail with image"""
-# images='image.jpg'
 # images=['avater.jpg', 'image.jpg']
 # kyaah.sendImages(images=images, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 
@@ -30,5 +31,11 @@ kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, b
 # kyaah.sendFiles(files=files, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 
 """mail with page"""
-# kyaah.sendPage(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 # kyaah.sendPage(page='index.html', from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
+
+"""get a random email"""
+# fk()
+
+"""get an OTP code"""
+# print(otp())
+# print(otp(30)) # for specifying the range number

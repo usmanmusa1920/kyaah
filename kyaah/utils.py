@@ -7,16 +7,6 @@ import geocoder
 import requests
 
 
-"""
-  NOTSET    ---  0
-  DEBUG     ---  10
-  INFO      ---  20
-  WARNING   ---  30  (default)
-  ERROR     ---  40
-  CRITICAL  ---  50
-"""
-
-
 formatter = "[+] [%(asctime)s] [%(levelname)s] %(message)s"
 logging.basicConfig(format = formatter)
 
@@ -36,7 +26,6 @@ class Tokens:
     for _ in range(_range):
       OTP += digits[math.floor(random.random()*10)]
     return OTP
-
 
 
 class Faker:
@@ -73,4 +62,3 @@ class Faker:
     gue_raw = json.loads(self.make_request)
     _fake = gue_raw["email_addr"]
     return {"fake_email": _fake}
-

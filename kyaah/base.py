@@ -4,6 +4,14 @@ import logging
 import smtplib
 from email.message import EmailMessage
 
+"""
+  NOTSET    ---  0
+  DEBUG     ---  10
+  INFO      ---  20
+  WARNING   ---  30  (default)
+  ERROR     ---  40
+  CRITICAL  ---  50
+"""
 
 formatter = "[+] [%(asctime)s] [%(levelname)s] %(message)s"
 logging.basicConfig(format = formatter)

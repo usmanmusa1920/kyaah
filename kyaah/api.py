@@ -23,7 +23,7 @@ def localMail(svr=None, env=False, port=False, **kwargs):
       >>> import kyaah
       >>> sender = "youremail@gmail.com"
       >>> receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-      >>> passwd = "*********"
+      >>> passwd = "*********" # use app password
       >>> mail_serve = "local"
       >>> subj = f"Hellow world!"
       >>> body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
@@ -63,7 +63,7 @@ def sendMail(svr=None, env=False, **kwargs):
     >>> import kyaah
     >>> sender = "youremail@gmail.com"
     >>> receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-    >>> passwd = "*********"
+    >>> passwd = "*********" # use app password
     >>> mail_serve = "gmail"
     >>> subj = f"Hellow world!"
     >>> body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
@@ -93,7 +93,7 @@ def sendImages(images=None, env=False, svr=None, **kwargs):
     >>> import kyaah
     >>> sender = "youremail@gmail.com"
     >>> receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-    >>> passwd = "*********"
+    >>> passwd = "*********" # use app password
     >>> mail_serve = "gmail"
     >>> subj = f"Hellow world!"
     >>> body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
@@ -129,7 +129,7 @@ def sendFiles(files=None, env=False, svr=None, **kwargs):
     >>> import kyaah
     >>> sender = "youremail@gmail.com"
     >>> receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-    >>> passwd = "*********"
+    >>> passwd = "*********" # use app password
     >>> mail_serve = "gmail"
     >>> subj = f"Hellow world!"
     >>> body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
@@ -159,7 +159,7 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
     >>> import kyaah
     >>> sender = "youremail@gmail.com"
     >>> receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-    >>> passwd = "*********"
+    >>> passwd = "*********" # use app password
     >>> mail_serve = "gmail"
     >>> subj = f"Hellow world!"
     >>> body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."

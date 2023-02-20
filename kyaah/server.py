@@ -1,5 +1,4 @@
 
-
 server = {
   "gmail": {
     "server": ["smtp.gmail.com"],

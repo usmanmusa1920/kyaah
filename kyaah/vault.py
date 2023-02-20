@@ -20,4 +20,3 @@ class Vault(BaseMail):
   def mail_passwd_env(self):
     """get sender mail password/app_password from environment variable"""
     return os.environ.get(self.mail_passwd)
-

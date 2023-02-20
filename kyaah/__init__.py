@@ -4,8 +4,7 @@
      /_/  / /_|  /_|  /__/
     /  / / /  | /  | /  /
     
-    Kyaah abstract away SMTP mail operations
-    Simplify your email message with `kyaah`
+    **Kyaah** abstract away SMTP mail operations complexity
 
     Usage at a glance:
       >>> import kyaah
@@ -28,7 +27,7 @@ __version__ = "0.1.1"
 __author__ = "Usman Musa"
 __author_email__ = "usmanmusa1920@gmail.com"
 __author_website__ = "https://usmanmusa1920.github.io"
-__repository__ = "https://github.com/usmanmusa1920/sakyum"
+__repository__ = "https://github.com/usmanmusa1920/kyaah"
 __website__ = "https://kyaah.readthedocs.io/en/latest/"
 __copyright__ = "Copyright (C) 2022 - 2023 Usman Musa"
 

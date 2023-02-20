@@ -21,16 +21,16 @@ After that create a new file let call it **test.py** in the file put the below c
 
 .. code-block:: python
 
-        import kyaah
-                    
-        sender = "my_email@gmail.com"
-        receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-        passwd = "*********" # use app password
-        server = "gmail"
-        subj = f"Hellow world!"
-        body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
+    import kyaah
+                
+    sender = "my_email@gmail.com"
+    receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
+    passwd = "*********" # use app password
+    server = "gmail"
+    subj = f"Hellow world!"
+    body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
 
-        kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 
 save the file and navigate to where the file is located in terminal and your are ready to go
 

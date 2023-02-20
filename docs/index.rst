@@ -22,7 +22,7 @@ After that create a new file let call it **test.py** in the file put the below c
 .. code-block:: python
 
     import kyaah
-                
+
     sender = "my_email@gmail.com"
     receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
     passwd = "*********" # use app password
@@ -46,6 +46,7 @@ There is an OTP code feature if you want to send an OTP code for verification by
     ____  ___     __
      /   /  / // /_  /| /
     /   /__/ /| /_  / |/
+
 
 .. code-block:: python
 

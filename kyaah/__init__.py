@@ -29,10 +29,13 @@
 
 
 __title__ = "kyaah"
+__version__ = "0.0.3"
 __author__ = "Usman Musa"
 __author_email__ = "usmanmusa1920@gmail.com"
 __author_website__ = "https://usmanmusa1920.github.io"
-__copyright__ = "Copyright 2022 Usman Musa"
+__repository__ = "https://github.com/usmanmusa1920/sakyum"
+__website__ = "https://kyaah.readthedocs.io/en/latest/"
+__copyright__ = "Copyright (C) 2022 - 2023 Usman Musa"
 
 
 status = {

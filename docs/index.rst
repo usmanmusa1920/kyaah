@@ -12,7 +12,9 @@ Simplify your email message with **kyaah**
      /_/  / /_|  /_|  /__/
     /  / / /  | /  | /  /
 
-# How to use the library
+How to use the library
+======================
+
 First we recommend creating a virtual environment **python3 -m venv venv** and then activate it **source venv/bin/activate**
 
 Once that finish now install the library using **pip install kyaah** and wait for the installation basically the library was uploaded using **sdist** (Source Distribution)
@@ -35,10 +37,13 @@ save the file and navigate to where the file is located in terminal and your are
 
 **python3 test.py**
 
-## Kyaah with token
+Kyaah with token
+================
+
 There is an OTP code feature if you want to send an OTP code for verification by:
 
 .. code-block:: python
+
     ____  ___     __
      /   /  / // /_  /| /
     /   /__/ /| /_  / |/
@@ -57,8 +62,13 @@ by passing an argument of the range number you want in the function like:
 
     print(otp(12))
 
-## Kyaah with faker
+Kyaah with faker
+================
+
 Use **Faker** for giving you a random email address
+
+.. code-block:: python
+
       ___        __ __
      /__ /|  // /_ /_/
     /   /-| /| /_ /  |
@@ -68,7 +78,8 @@ Use **Faker** for giving you a random email address
 
     fk()
 
-## Github repository:
+Github repository:
+==================
 
 - https://github.com/usmanmusa1920/kyaah
 

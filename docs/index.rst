@@ -47,7 +47,6 @@ There is an OTP code feature if you want to send an OTP code for verification by
      /   /  / // /_  /| /
     /   /__/ /| /_  / |/
 
-
 .. code-block:: python
 
     from kyaah import otp

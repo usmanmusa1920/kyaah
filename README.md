@@ -3,7 +3,7 @@ Kyaah abstract away SMTP mail operations
 
 Simplify your email message with `kyaah`
 
-      /   \/ /|   /|   /  /
+      / / \/ /|   /|   /  /
      /_/  / /_|  /_|  /__/
     /  / / /  | /  | /  /
 
@@ -33,6 +33,7 @@ save the file and navigate to where the file is located in terminal and your are
 
 ## Kyaah with token
 There is an OTP code feature if you want to send an OTP code for verification by:
+
     ____  ___     __
      /   /  / // /_  /| /
     /   /__/ /| /_  / |/
@@ -54,6 +55,7 @@ print(otp(12))
 
 ## Kyaah with faker
 Use `Faker` for giving you a random email address
+
       ___        __ __
      /__ /|  // /_ /_/
     /   /-| /| /_ /  |

@@ -23,7 +23,7 @@
 
 
 __title__ = "kyaah"
-__version__ = "0.1.2"
+__version__ = "0.1.7"
 __author__ = "Usman Musa"
 __author_email__ = "usmanmusa1920@gmail.com"
 __author_website__ = "https://usmanmusa1920.github.io"

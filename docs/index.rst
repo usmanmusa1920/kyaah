@@ -1,7 +1,12 @@
 
+Kyaah
+#####
+
 Kyaah abstract away SMTP mail operations
 
 Simplify your email message with **kyaah**
+
+.. code-block:: python
 
       /   \/ /|   /|   /  /
      /_/  / /_|  /_|  /__/
@@ -32,6 +37,8 @@ save the file and navigate to where the file is located in terminal and your are
 
 ## Kyaah with token
 There is an OTP code feature if you want to send an OTP code for verification by:
+
+.. code-block:: python
     ____  ___     __
      /   /  / // /_  /| /
     /   /__/ /| /_  / |/

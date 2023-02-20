@@ -20,6 +20,7 @@ Once that finish now install the library using **pip install kyaah** and wait fo
 After that create a new file let call it **test.py** in the file put the below code
 
 .. code-block:: python
+
         import kyaah
                     
         sender = "my_email@gmail.com"
@@ -56,6 +57,7 @@ You can also specify the length of numbers you want,
 by passing an argument of the range number you want in the function like:
 
 .. code-block:: python
+
     from kyaah import otp
 
     print(otp(12))
@@ -72,6 +74,7 @@ Use **Faker** for giving you a random email address
     /   /-| /| /_ /  |
 
 .. code-block:: python
+
     from kyaah import fk
 
     fk()

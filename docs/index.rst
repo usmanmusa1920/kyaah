@@ -2,13 +2,11 @@
 Kyaah
 #####
 
-Kyaah abstract away SMTP mail operations
-
-Simplify your email message with **kyaah**
+**Kyaah** abstract away SMTP mail operations complexity
 
 .. code-block:: python
 
-      /   \/ /|   /|   /  /
+      / / \/ /|   /|   /  /
      /_/  / /_|  /_|  /__/
     /  / / /  | /  | /  /
 

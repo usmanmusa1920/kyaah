@@ -5,6 +5,9 @@ Mail utilities
 
 Kyaah provided some other utilities such as otp code function, fake email (generated from guerillamail) and others.
 
+Kyaah with token 2
+==================
+
 Kyaah with token
 ----------------
 
@@ -24,6 +27,9 @@ by passing an argument of the range number you want in the function like:
     from kyaah import otp
 
     print(otp(12))
+
+Kyaah with faker 2
+==================
 
 Kyaah with faker
 ----------------

@@ -1,18 +1,18 @@
 
-Kyaah abstract away SMTP mail operations
+# Kyaah
 
-Simplify your email message with `kyaah`
+Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
-      / / \/ /|   /|   /  /
-     /_/  / /_|  /_|  /__/
-    /  / / /  | /  | /  /
+# Simple use of kyaah
+First we recommend creating a virtual environment `python -m venv venv` and then activate it `source venv/bin/activate`
 
-# How to use the library
-First we recommend creating a virtual environment `python3 -m venv venv` and then activate it `source venv/bin/activate`
+Once that finish now install the library using
 
-Once that finish now install the library using `pip install kyaah` and wait for the installation basically the library was uploaded using `sdist` (Source Distribution)
+```
+pip install kyaah
+```
 
-After that create a new file let call it `test.py` in the file put the below code
+Wait for the installation to finish, basically the library was uploaded using `sdist` (Source Distribution). After that create a new file let call it `test.py` in the file paste the below code with your credentials.
 
 ```python
 import kyaah
@@ -20,6 +20,7 @@ import kyaah
 sender = "my_email@gmail.com"
 receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
 passwd = "*********" # use app password
+
 server = "gmail"
 subj = f"Hellow world!"
 body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
@@ -27,47 +28,16 @@ body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volup
 kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 ```
 
-save the file and navigate to where the file is located in terminal and your are ready to go
+save the file and navigate to where the file is located in terminal and your are ready to go (run the file)
 
-`python3 test.py`
+`python test.py`
 
-## Kyaah with token
-There is an OTP code feature if you want to send an OTP code for verification by:
+See more documentations <a href="https://kyaah.readthedocs.io">here!</a>
 
-    ____  ___     __
-     /   /  / // /_  /| /
-    /   /__/ /| /_  / |/
+## Useful links
 
-```python
-from kyaah import otp
-
-print(otp())
-```
-
-You can also specify the length of numbers you want,
-by passing an argument of the range number you want in the function like:
-
-```python
-from kyaah import otp
-
-print(otp(12))
-```
-
-## Kyaah with faker
-Use `Faker` for giving you a random email address
-
-      ___        __ __
-     /__ /|  // /_ /_/
-    /   /-| /| /_ /  |
-
-```python
-from kyaah import fk
-
-fk()
-```
-
-## Github repository:
-
-- https://github.com/usmanmusa1920/kyaah
+- Documentation: https://kyaah.readthedocs.io
+- Repository: https://github.com/usmanmusa1920/kyaah
+- PYPI Release: https://pypi.org/project/kyaah
 
 Pull requests are welcome

@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import imghdr
 import logging
 import smtplib
@@ -16,15 +16,14 @@ from email.message import EmailMessage
 formatter = "[+] [%(asctime)s] [%(levelname)s] %(message)s"
 logging.basicConfig(format = formatter)
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-
+logger = logging.getLogger() # Creating an object
+logger.setLevel(logging.DEBUG) # Setting the threshold of logger to DEBUG
 
 
 class BaseMail:
-  """The base class for mail
-
-  NOTE:
+  """
+  The base class for mail
+  Note:
     in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465, although kyaah has a dict tionary of server, where each server has a list of ports, SMTP server, etc.
   """
   
@@ -55,14 +54,14 @@ class BaseMail:
   def from_usr_addr(self):
     """the sender mail address"""
     return self.from_usr
-  
-  
+    
+
   @property
   def mail_passwd_env(self):
     """the sender mail password"""
     return self.mail_passwd
-  
-  
+    
+
   @property
   def mail_msg(self):
     """content of the mail (subject and message body)"""
@@ -70,17 +69,16 @@ class BaseMail:
     body = self.body
     data = f"Subject: {subj}\n\n{body}"
     return data
-  
-  
+    
+
   def check_required(self):
     """checking for required values"""
-    
     while self.mail_passwd == None:
       raise UnboundLocalError(f"`mail_passwd` is required")
     while self.server == None:
       raise UnboundLocalError(f"`server` is required")
       
-      
+
   def mail_head(self, msg):
     """contains the sender, receiver and subject"""
     # grab the subject from `mail_msg` method by spliting it,
@@ -123,8 +121,8 @@ class BaseMail:
       with smtplib.SMTP_SSL(self.server, port) as smtp:
         smtp.login(self.from_usr_addr, self.mail_passwd_env)
         smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
-      
-      
+        
+
   def file_to_send(self, file_to, f_opration, _msg=None, maintype=None):
     # maintype = "image" for sending image
     # maintype = "application" for sending files like pdf
@@ -140,16 +138,14 @@ class BaseMail:
         f_type = imghdr.what(img_send.name)
         f_name = img_send.name
       _msg.add_attachment(img_read, maintype=maintype, subtype=f_type, filename=f_name)
-    
-    
+      
+
   def mail_with_image(self, image, port=25):
     """send mail together with an image"""
-    
     self.check_required()
     
     if len(self.to_usr) > 1:
       """if the list of to_usr is more than one"""
-      
       for receiver in self.to_usr:
         msg = EmailMessage()
         msg['Subject'] = self.mail_msg.split('\n')[0][9:]
@@ -188,11 +184,10 @@ class BaseMail:
         self.mail_open(msg, port)
       else:
         logger.error(f"only list or string can be pass as argument in {self.mail_with_image}")
-      
-      
+        
+
   def mail_with_file(self, mail_files, port=25):
     """send mail together with a list of mail_files"""
-    
     self.check_required()
     
     msg = EmailMessage()
@@ -236,4 +231,3 @@ class BaseMail:
         html_f = f_html.read()
       msg.add_attachment(html_f, subtype='html')
     self.mail_open(msg, port)
-

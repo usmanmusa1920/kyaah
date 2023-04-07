@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import logging
 from . import Serve
 from . import Faker
@@ -53,7 +53,7 @@ def localMail(svr=None, env=False, port=False, **kwargs):
     base.local_mail(port=port)
   else:
     base.local_mail()
-
+    
 
 def sendMail(svr=None, env=False, **kwargs):
   r"""send a simple SMTP mail
@@ -72,7 +72,7 @@ def sendMail(svr=None, env=False, **kwargs):
   -----------------------------------------------------------------------------------
   FOR SECURITY REASON
     if you added your `email address` and `app password` in your system environment variable, include a keyword `env` to be `True`. And then put the variable name of your email address and email app password, instead of the raw email address and app password. See hint for this in your interpreter by calling the  '''help(Vault)''' class, enable `env` to be `True` in production instead of leaving the default which is `False` example:
-      
+
     >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd, env=True)
   """
 
@@ -183,7 +183,7 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
       )
   # slicing the first index of the port list, even though it's only one item
   base.mail_with_page(file=page, port=s_mail["port"][0])
-
+  
 
 def fk():
   r"""this function generate a random email address for you"""
@@ -192,8 +192,8 @@ def fk():
   logger = logging.getLogger()
   logger.setLevel(logging.DEBUG)
   logger.info(Faker().faker())
-
-
+  
+  
 def otp(_range=False):
   r"""this function give you a random OTP code"""
   if _range:

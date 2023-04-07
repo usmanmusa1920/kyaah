@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import json
 import math
 import random
@@ -10,9 +10,7 @@ import requests
 formatter = "[+] [%(asctime)s] [%(levelname)s] %(message)s"
 logging.basicConfig(format = formatter)
 
-# Creating an object
 logger = logging.getLogger()
-# Setting the threshold of logger to DEBUG
 logger.setLevel(logging.DEBUG)
 
 
@@ -26,7 +24,7 @@ class Tokens:
     for _ in range(_range):
       OTP += digits[math.floor(random.random()*10)]
     return OTP
-
+    
 
 class Faker:
   """a class that give you random email address"""
@@ -43,8 +41,8 @@ class Faker:
     g = geocoder.ip(self.ip).raw
     ip = g.get("ip")
     return ip
-  
-  
+    
+    
   @property
   def make_request(self):
     """this method make a request along side with an ip address from `what_ip` method of this class"""

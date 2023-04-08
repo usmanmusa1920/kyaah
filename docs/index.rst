@@ -35,10 +35,9 @@ Wait for the installation to finish, basically the library was uploaded using **
 
     kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 
-save the file and navigate to where the file is located in terminal and your are ready to go (run the file)
+save the file and navigate to where the file is located in terminal and your are ready to go (run the file)::
 
-**python3 test.py**
-
+    python3 test.py
 
 
 Table of content

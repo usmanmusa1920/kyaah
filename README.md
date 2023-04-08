@@ -39,6 +39,7 @@ See more documentations <a href="https://kyaah.readthedocs.io">here!</a>
 ## Useful links
 
 - Documentation: https://kyaah.readthedocs.io
+<!-- - Repository: https://github.com/usmanmusa1920/kyaah -->
 - PYPI Release: https://pypi.org/project/kyaah
 
 Pull requests are welcome

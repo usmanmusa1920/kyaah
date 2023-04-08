@@ -23,8 +23,7 @@ If you want to test, we provide you with a test feature which in short is to neg
 
   kyaah.sendPage(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 
-FOR SECURITY REASON
-===================
+**FOR SECURITY REASON**
 
 if you added your `email address` and `app password` in your system environment variable, include a keyword `env` to be `True`. And then put the variable name of your email address and email app password, instead of the raw email address and app password. See hint for this in your interpreter by calling the  '''help(Vault)''' class, enable `env` to be `True` in production instead of leaving the default which is `False` example::
 

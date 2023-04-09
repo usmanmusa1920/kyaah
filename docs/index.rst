@@ -4,12 +4,6 @@ Kyaah
 
 Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
-.. code-block:: python
-
-      / / \/ /|   /|   /  /
-     /_/  / /_|  /_|  /__/
-    /  / / /  | /  | /  /
-
 Simple use of kyaah
 ===================
 

@@ -9,13 +9,13 @@ Kyaah provided **sendFiles** function for sending simple mail with page.
 
   import kyaah
 
-  sender = "youremail@gmail.com"
-  receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-  passwd = "*********" # use app password
+  sender = 'youremail@gmail.com'
+  receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
+  passwd = '*********' # use app password
 
-  mail_serve = "gmail"
-  subj = f"Hellow world!"
-  body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
+  mail_serve = 'gmail'
+  subj = f'Hellow world!'
+  body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
   
   kyaah.sendPage(page='index.html', from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
 

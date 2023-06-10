@@ -19,13 +19,13 @@ Wait for the installation to finish, basically the library was uploaded using **
 
     import kyaah
 
-    sender = "my_email@gmail.com"
-    receiver = ["receiver_1@gmail.com", "receiver_2@gmail.com"]
-    passwd = "*********" # use app password
+    sender = 'my_email@gmail.com'
+    receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
+    passwd = '*********' # use app password
 
-    server = "gmail"
-    subj = f"Hellow world!"
-    body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt."
+    server = 'gmail'
+    subj = f'Hellow world!'
+    body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
 
     kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 

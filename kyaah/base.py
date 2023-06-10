@@ -13,11 +13,10 @@ from email.message import EmailMessage
   CRITICAL  ---  50
 """
 
-formatter = "[+] [%(asctime)s] [%(levelname)s] %(message)s"
-logging.basicConfig(format = formatter)
-
-logger = logging.getLogger() # Creating an object
-logger.setLevel(logging.DEBUG) # Setting the threshold of logger to DEBUG
+FORMATTER = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
+logging.basicConfig(format = FORMATTER)
+LOGGER = logging.getLogger() # Creating an object
+LOGGER.setLevel(logging.DEBUG) # Setting the threshold of LOGGER to DEBUG
 
 
 class BaseMail:
@@ -46,9 +45,9 @@ class BaseMail:
     
     
     while self.from_usr == None:
-      raise UnboundLocalError(f"`from_usr` is required")
+      raise UnboundLocalError(f'`from_usr` is required')
     while self.to_usr == None:
-      raise UnboundLocalError(f"`to_usr` is required")
+      raise UnboundLocalError(f'`to_usr` is required')
     
   @property
   def from_usr_addr(self):
@@ -67,16 +66,16 @@ class BaseMail:
     """content of the mail (subject and message body)"""
     subj = self.subject
     body = self.body
-    data = f"Subject: {subj}\n\n{body}"
+    data = f'Subject: {subj}\n\n{body}'
     return data
     
 
   def check_required(self):
     """checking for required values"""
     while self.mail_passwd == None:
-      raise UnboundLocalError(f"`mail_passwd` is required")
+      raise UnboundLocalError(f'`mail_passwd` is required')
     while self.server == None:
-      raise UnboundLocalError(f"`server` is required")
+      raise UnboundLocalError(f'`server` is required')
       
 
   def mail_head(self, msg):
@@ -92,7 +91,9 @@ class BaseMail:
     
     
   def mail_open(self, msg, port):
-    """this open the connection, and login to email address using email address provided together with password/app_password"""
+    """
+    This open the connection, and login to email address using email address provided together with password/app_password
+    """
     with smtplib.SMTP_SSL(self.server, port) as smtp:
       smtp.login(self.from_usr_addr, self.mail_passwd_env)
       smtp.send_message(msg)
@@ -107,7 +108,9 @@ class BaseMail:
   def send_mail(self, port=25):
     """send mail with ssl security"""
     
-    """recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class"""
+    """
+    recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class
+    """
     
     self.check_required()
     
@@ -124,15 +127,15 @@ class BaseMail:
         
 
   def file_to_send(self, file_to, f_opration, _msg=None, maintype=None):
-    # maintype = "image" for sending image
-    # maintype = "application" for sending files like pdf
+    # maintype = 'image' for sending image
+    # maintype = 'application' for sending files like pdf
     
-    if maintype == "application":
+    if maintype == 'application':
       with open(file_to, f_opration) as file_send:
         f_read = file_send.read()
         f_name = file_send.name
       _msg.add_attachment(f_read, maintype=maintype, subtype='octet-stream', filename=f_name)
-    if maintype == "image":
+    if maintype == 'image':
       with open(file_to, f_opration) as img_send:
         img_read = img_send.read()
         f_type = imghdr.what(img_send.name)
@@ -157,15 +160,15 @@ class BaseMail:
           """send message with morethan one image"""
           
           for my_img in image:
-            self.file_to_send(my_img, "rb", _msg=msg, maintype="image")
+            self.file_to_send(my_img, 'rb', _msg=msg, maintype='image')
           self.mail_open(msg, port)
         elif type(image) == str:
           """send message with one image"""
           
-          self.file_to_send(image, "rb", _msg=msg, maintype="image")
+          self.file_to_send(image, 'rb', _msg=msg, maintype='image')
           self.mail_open(msg, port)
         else:
-          logger.error(f"only list or string can be pass as argument in {self.mail_with_image}")
+          LOGGER.error(f'only list or string can be pass as argument in {self.mail_with_image}')
     elif len(self.to_usr) == 1:
       msg = EmailMessage()
       self.mail_head(msg)
@@ -175,15 +178,15 @@ class BaseMail:
         """send message with morethan one image, for only one destination"""
         
         for my_img in image:
-          self.file_to_send(my_img, "rb", _msg=msg, maintype="image")
+          self.file_to_send(my_img, 'rb', _msg=msg, maintype='image')
         self.mail_open(msg, port)
       elif type(image) == str:
         """send message with one image, for only one destination"""
         
-        self.file_to_send(image, "rb", _msg=msg, maintype="image")
+        self.file_to_send(image, 'rb', _msg=msg, maintype='image')
         self.mail_open(msg, port)
       else:
-        logger.error(f"only list or string can be pass as argument in {self.mail_with_image}")
+        LOGGER.error(f'only list or string can be pass as argument in {self.mail_with_image}')
         
 
   def mail_with_file(self, mail_files, port=25):
@@ -195,14 +198,16 @@ class BaseMail:
     msg.set_content(self.mail_msg.split('\n')[2])
     
     for a_file in mail_files:
-      self.file_to_send(a_file, "rb", _msg=msg, maintype="application")
+      self.file_to_send(a_file, 'rb', _msg=msg, maintype='application')
     self.mail_open(msg, port)
     
     
   def mail_with_page(self, file=None, port=25):
-    """send mail with html page. You can pass a keyword args of `file='default'` which will send a default html page provided within this class method, that is for test
+    """
+    send mail with html page. You can pass a keyword args of `file='default'` which will send a default html page provided within this class method, that is for test
     
-    But if you want to send yor own html page assign the `file` with a value of the absolute location of your html page"""
+    But if you want to send yor own html page assign the `file` with a value of the absolute location of your html page
+    """
     
     self.check_required()
     
@@ -211,7 +216,7 @@ class BaseMail:
     msg.set_content(self.mail_msg.split('\n')[2])
     
     if file == 'default':
-      dummy_page = f"""<!DOCTYPE html>
+      dummy_page = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -224,7 +229,7 @@ class BaseMail:
   <p style="color:brown;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum voluptate ipsum voluptatum doloribus, incidunt totam doloremque quae quibusdam exercitationem sapiente vel veritatis consequuntur earum et. Quod nobis minus minima repellat.</p>
 </body>
 </html>
-"""
+'''
       msg.add_alternative(dummy_page, subtype='html')
     elif file != None:
       with open(file) as f_html:

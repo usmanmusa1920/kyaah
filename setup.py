@@ -23,7 +23,6 @@ setup(
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Natural Language :: English',
-    # 'Operating System :: POSIX :: Linux',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
@@ -32,6 +31,7 @@ setup(
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Topic :: Internet',
+    'Topic :: Communications :: Email',
     'Topic :: Software Development :: Libraries :: Python Modules',
   ],
   

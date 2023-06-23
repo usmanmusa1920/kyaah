@@ -19,7 +19,7 @@ setup(
   License = 'MIT',
   classifiers = [
     'Development Status :: 5 - Production/Stable',
-    'Environment :: Email Utility',
+    'Environment :: Other Environment',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Natural Language :: English',

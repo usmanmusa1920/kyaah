@@ -5,7 +5,7 @@ Local mail
 
 Kyaah provided **localMail** function, to test your mail locally. First boot up the python mail server on a different terminal by::
 
-  python3 -m smtpd -c DebuggingServer -n localhost:1025
+  python -m smtpd -c DebuggingServer -n localhost:1025
 
 and then open another terminal and run your python script including the below code in it
 
@@ -30,7 +30,7 @@ if you want to boot up the python mail server with a different port, not `1025`,
 
 .. code-block:: python
 
-  python3 -m smtpd -c DebuggingServer -n localhost:7000
+  python -m smtpd -c DebuggingServer -n localhost:7000
 
 After that, pass a keyword argument of `port` with the port number as the value in the `localMail` function, like::
 

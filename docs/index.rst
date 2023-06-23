@@ -7,7 +7,7 @@ Kyaah abstract away cognitive over-head of sending SMTP mail, together with othe
 Simple use of kyaah
 ===================
 
-First we recommend creating a virtual environment **python3 -m venv venv** and then activate it **source venv/bin/activate**
+First we recommend creating a virtual environment **python -m venv venv** and then activate it **source venv/bin/activate**
 
 Once that finish now install the library using::
 
@@ -31,7 +31,7 @@ Wait for the installation to finish, basically the library was uploaded using **
 
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)::
 
-    python3 test.py
+    python test.py
 
 
 Table of content

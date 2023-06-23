@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 server = {
   'gmail': {
     'server': ['smtp.gmail.com'],

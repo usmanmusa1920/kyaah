@@ -4,7 +4,7 @@
 Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
 # Simple use of kyaah
-First we recommend creating a virtual environment `python3 -m venv venv` and then activate it `source venv/bin/activate`
+First we recommend creating a virtual environment `python -m venv venv` and then activate it `source venv/bin/activate`
 
 Once that finish now install the library using
 
@@ -31,7 +31,7 @@ kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)
 
 ```
-python3 test.py
+python test.py
 ```
 
 See more documentations <a href="https://kyaah.readthedocs.io">here!</a>

@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-  =====================
-  @ kyaah software
-  =====================
+    =====================
+    @ kyaah software
+    =====================
 
-    / / \/ /|   /|   /  /
-   /_/  / /_|  /_|  /__/
-  /  / / /  | /  | /  /
+      / / \/ /|   /|   /  /
+     /_/  / /_|  /_|  /__/
+    /  / / /  | /  | /  /
 
-  Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
-  
-  Usage at a glance:
-    >>> import kyaah
-    
-    >>> sender = 'my_email@gmail.com'
-    >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
-    >>> passwd = '*********' # use app password
+    Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
-    >>> server = 'gmail'
-    >>> subj = f'Hellow world!'
-    >>> body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
+    Usage at a glance:
+        >>> import kyaah
 
-    >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+        >>> sender = 'my_email@gmail.com'
+        >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
+        >>> passwd = '*********' # use app password
+
+        >>> server = 'gmail'
+        >>> subj = f'Hellow world!'
+        >>> body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
+        
+        >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 """
 
 __title__ = 'kyaah'
@@ -35,27 +35,27 @@ __copyright__ = 'Copyright (C) 2022 - 2023 Usman Musa'
 
 
 status_codes = {
-  # Information.
-  200: ('success',),
-  # Client Error.
-  400: ('bad_request',),
-  401: ('unauthorized',),
-  404: ('not_found',),
-  # Server Error.
-  500: ('internal_server_error',),
-  503: ('service_unavailable',),
+    # Information.
+    200: ('success',),
+    # Client Error.
+    400: ('bad_request',),
+    401: ('unauthorized',),
+    404: ('not_found',),
+    # Server Error.
+    500: ('internal_server_error',),
+    503: ('service_unavailable',),
 }
 
 
 def selector(env=None):
-  """decide a class for `environment variable` for security purpose or not"""
-  if env:
-    cls = Vault
-  else:
-    cls = BaseMail
-  return cls
-  
-  
+    """decide a class for `environment variable` for security purpose or not"""
+    if env:
+        cls = Vault
+    else:
+        cls = BaseMail
+    return cls
+
+
 from .base import BaseMail
 from .vault import Vault
 

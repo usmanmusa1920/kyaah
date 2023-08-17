@@ -8,30 +8,30 @@ First we recommend creating a virtual environment `python -m venv venv` and then
 
 Once that finish now install the library using
 
-```
-pip install kyaah
+```sh
+    pip install kyaah
 ```
 
 Wait for the installation to finish, basically the library was uploaded using `sdist` (Source Distribution). After that create a new file let call it `test.py` in the file paste the below code with your credentials.
 
 ```python
-import kyaah
-            
-sender = 'my_email@gmail.com'
-receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
-passwd = '*********' # use app password
+    import kyaah
+                
+    sender = 'my_email@gmail.com'
+    receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
+    passwd = '*********' # use app password
 
-server = 'gmail'
-subj = f'Hellow world!'
-body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
+    server = 'gmail'
+    subj = f'Hellow world!'
+    body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
 
-kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 ```
 
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)
 
-```
-python test.py
+```sh
+    python test.py
 ```
 
 See more documentations <a href="https://kyaah.readthedocs.io">here!</a>

@@ -38,14 +38,14 @@ Table of content
 ----------------
 
 .. toctree::
-  :maxdepth: 2
+    :maxdepth: 2
 
-  local_mail
-  send_mail
-  send_images
-  send_files
-  send_page
-  mail_utils
+    local_mail
+    send_mail
+    send_images
+    send_files
+    send_page
+    mail_utils
 
 
 Useful links:

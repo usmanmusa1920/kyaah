@@ -99,15 +99,11 @@ class BaseMail:
 
     def send_mail(self, port=25):
         """send mail with ssl security"""
-
-        """
-    recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class
-    """
-
+        # recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class
         self.check_required()
 
         if len(self.to_usr) > 1:
-            """if there is recepients"""
+            # f there is recepients
             for receiver in self.to_usr:
                 with smtplib.SMTP_SSL(self.server, port) as smtp:
                     smtp.login(self.from_usr_addr, self.mail_passwd_env)
@@ -125,22 +121,22 @@ class BaseMail:
             with open(file_to, f_opration) as file_send:
                 f_read = file_send.read()
                 f_name = file_send.name
-            _msg.add_attachment(f_read, maintype=maintype,
-                                subtype='octet-stream', filename=f_name)
+            _msg.add_attachment(
+                f_read, maintype=maintype, subtype='octet-stream', filename=f_name)
         if maintype == 'image':
             with open(file_to, f_opration) as img_send:
                 img_read = img_send.read()
                 f_type = imghdr.what(img_send.name)
                 f_name = img_send.name
-            _msg.add_attachment(img_read, maintype=maintype,
-                                subtype=f_type, filename=f_name)
+            _msg.add_attachment(
+                img_read, maintype=maintype, subtype=f_type, filename=f_name)
 
     def mail_with_image(self, image, port=25):
         """send mail together with an image"""
         self.check_required()
 
         if len(self.to_usr) > 1:
-            """if the list of to_usr is more than one"""
+            # if the list of to_usr is more than one
             for receiver in self.to_usr:
                 msg = EmailMessage()
                 msg['Subject'] = self.mail_msg.split('\n')[0][9:]
@@ -149,15 +145,13 @@ class BaseMail:
                 msg.set_content(self.mail_msg.split('\n')[2])
 
                 if type(image) == list:
-                    """send message with morethan one image"""
-
+                    # send message with more than one image
                     for my_img in image:
                         self.file_to_send(
                             my_img, 'rb', _msg=msg, maintype='image')
                     self.mail_open(msg, port)
                 elif type(image) == str:
-                    """send message with one image"""
-
+                    # send message with one image
                     self.file_to_send(image, 'rb', _msg=msg, maintype='image')
                     self.mail_open(msg, port)
                 else:
@@ -169,14 +163,12 @@ class BaseMail:
             msg.set_content(self.mail_msg.split('\n')[2])
 
             if type(image) == list:
-                """send message with morethan one image, for only one destination"""
-
+                # send message with more than one image, for only one destination
                 for my_img in image:
                     self.file_to_send(my_img, 'rb', _msg=msg, maintype='image')
                 self.mail_open(msg, port)
             elif type(image) == str:
-                """send message with one image, for only one destination"""
-
+                # send message with one image, for only one destination
                 self.file_to_send(image, 'rb', _msg=msg, maintype='image')
                 self.mail_open(msg, port)
             else:

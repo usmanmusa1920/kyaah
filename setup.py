@@ -1,22 +1,39 @@
 # -*- coding: utf-8 -*-
+import re
+import os
 from setuptools import setup
 from setuptools import find_packages
 
 
+def grep(attrname):
+    """get package info from __init__.py file"""
+    file_path = os.path.join(os.path.dirname(__file__), 'kyaah/__init__.py')
+
+    # content of the file
+    read_file = open(file_path).read()
+
+    # pattern match using regex
+    pattern = r"{0}\W*=\W*'([^']+)'".format(attrname)
+
+    # our regex value
+    attr_value, = re.findall(pattern, read_file)
+    return attr_value
+
+
 setup(
-    name = 'kyaah', # name of the main package (base folder i.e kyaah)
-    version = '0.1.10',
-    description = 'Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc',
+    name = grep('__title__'), # name of the main package (base folder i.e kyaah)
+    version = grep('__version__'),
+    description = grep('__description__'),
     long_description = open('README.md').read() + '\n\n' + open('CHANGELOG').read(),
     long_description_content_type='text/markdown',
     python_requires = '>=3.7',
     platforms='any',
     
-    url = 'https://kyaah.readthedocs.io',
+    url = grep('__url__'),
     download_url = 'https://pypi.org/project/kyaah',
-    author = 'Usman Musa',
-    author_email = 'usmanmusa1920@gmail.com',
-    License = 'MIT',
+    author = grep('__author__'),
+    author_email = grep('__author_email__'),
+    license = grep('__license__'),
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
@@ -47,10 +64,10 @@ setup(
     
     # List of other python modules which this module depends on.  For example RPi.GPIO
     install_requires = [
-        'geocoder==1.38.1',
+        'geocoder>=1.38.1',
     ],
     project_urls={
-        'Documentation': 'https://kyaah.readthedocs.io',
-        'Source': 'https://github.com/usmanmusa1920/kyaah',
+        'Documentation': grep('__url__'),
+        'Source': grep('__repository__'),
     },
 )

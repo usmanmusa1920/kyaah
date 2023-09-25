@@ -24,14 +24,18 @@
         >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
 """
 
+from datetime import datetime
+
 __title__ = 'kyaah'
-__version__ = '0.1.10'
+__version__ = '0.1.11'
 __author__ = 'Usman Musa'
 __author_email__ = 'usmanmusa1920@gmail.com'
 __author_website__ = 'https://usmanmusa1920.github.io'
 __repository__ = 'https://github.com/usmanmusa1920/kyaah'
 __url__ = 'https://kyaah.readthedocs.io'
-__copyright__ = 'Copyright (C) 2022 - 2023 Usman Musa'
+__license__ = 'MIT'
+__copyright__ = f'Copyright (C) 2022 - {datetime.today().year} Usman Musa'
+__description__ = 'Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.'
 
 
 status_codes = {

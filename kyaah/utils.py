@@ -19,7 +19,7 @@ class Tokens:
     
 
 class Faker:
-    """a class that give you random email address"""
+    """class that give you random email address"""
     
     _source = ['https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=', '&agent=Mozilla_foo_bar']
     

@@ -22,7 +22,7 @@ def localMail(svr=None, env=False, port=False, **kwargs):
         `python3 -m smtpd -c DebuggingServer -n localhost:1025`
     and then open another terminal and run your python script including the below code in it:
 
-    Usage::
+    Usage:
         >>> import kyaah
         >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
@@ -52,7 +52,7 @@ def sendMail(svr=None, env=False, **kwargs):
     send a simple SMTP mail
     :svr: this is the type of the sender mail, for google -> gmail, for yahoo -> yahoo, etc
 
-    Usage::
+    Usage:
         >>> import kyaah
         >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
@@ -78,7 +78,7 @@ def sendImages(images=None, env=False, svr=None, **kwargs):
     r"""
     send simple mail with image(s)
 
-    Usage::
+    Usage:
         >>> import kyaah
         >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
@@ -104,7 +104,7 @@ def sendFiles(files=None, env=False, svr=None, **kwargs):
     r"""
     send simple mail with file(s)
 
-    Usage::
+    Usage:
         >>> import kyaah
         >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
@@ -130,7 +130,7 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
     r"""
     send simple mail with page
     
-    Usage::
+    Usage:
         >>> import kyaah
         >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
@@ -152,7 +152,7 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
 
 
 def fk():
-    r"""this function generate a random email address for you"""
+    """This function generate a random email address for you"""
     formatter = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
     logging.basicConfig(format = formatter)
     logger = logging.getLogger()
@@ -161,7 +161,7 @@ def fk():
 
 
 def otp(_range=False):
-    r"""this function give you a random OTP code"""
+    """This function give you a random OTP code"""
     if _range:
         return Tokens().mail_otp(_range)
     return Tokens().mail_otp()

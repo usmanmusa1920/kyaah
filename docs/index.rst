@@ -4,6 +4,35 @@ Kyaah
 
 Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
+Release v\ |version|
+
+
+.. image:: https://static.pepy.tech/badge/kyaah/month
+    :target: https://pepy.tech/project/kyaah
+    :alt: Kyaah Downloads Per Month Badge
+
+.. image:: https://static.pepy.tech/badge/kyaah/week
+    :target: https://pepy.tech/project/kyaah
+    :alt: Kyaah Downloads Per Week Badge
+    
+.. image:: https://img.shields.io/pypi/l/kyaah.svg
+    :target: https://pypi.org/project/kyaah/
+    :alt: License Badge
+
+.. image:: https://img.shields.io/pypi/wheel/kyaah.svg
+    :target: https://pypi.org/project/kyaah/
+    :alt: Wheel Support Badge
+
+.. image:: https://img.shields.io/pypi/pyversions/kyaah.svg
+    :target: https://pypi.org/project/kyaah/
+    :alt: Python Version Support Badge
+
+.. image:: https://img.shields.io/github/contributors/usmanmusa1920/kyaah.svg
+    :target: https://github.com/usmanmusa1920/kyaah/graphs/contributors
+    :alt: Contributors Badge
+    
+-------------------
+
 Simple use of kyaah
 ===================
 
@@ -27,7 +56,9 @@ Wait for the installation to finish, basically the library was uploaded using **
     subj = f'Hellow world!'
     body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
 
-    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+    kyaah.sendMail(
+        from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd
+    )
 
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)::
 

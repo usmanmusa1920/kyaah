@@ -2,6 +2,13 @@
 
 Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
+[![Downloads Month Badge](https://static.pepy.tech/badge/kyaah/month)](https://pypi.org/project/kyaah)
+[![Downloads Week Badge](https://static.pepy.tech/badge/kyaah/week)](https://pypi.org/project/kyaah)
+[![License Badge](https://img.shields.io/pypi/l/kyaah.svg)](https://pypi.org/project/kyaah)
+[![Supported Wheel Badge](https://img.shields.io/pypi/wheel/kyaah.svg)](https://pypi.org/project/kyaah)
+[![Supported Versions Badge](https://img.shields.io/pypi/pyversions/kyaah.svg)](https://pypi.org/project/kyaah)
+[![Contributors](https://img.shields.io/github/contributors/usmanmusa1920/kyaah.svg)](https://github.com/usmanmusa1920/kyaah/graphs/contributors)
+
 # Simple use of kyaah
 First we recommend creating a virtual environment `python -m venv venv` and then activate it `source venv/bin/activate`
 
@@ -24,7 +31,9 @@ Wait for the installation to finish, basically the library was uploaded using `s
     subj = f'Hellow world!'
     body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
 
-    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+    kyaah.sendMail(
+        from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd
+    )
 ```
 
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)

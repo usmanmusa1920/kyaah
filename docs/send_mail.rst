@@ -17,10 +17,14 @@ Kyaah provided **sendMail** function for sending a simple SMTP mail.
     subj = f'Hellow world!'
     body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
 
-    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
+    kyaah.sendMail(
+        from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd
+    )
 
 **FOR SECURITY REASON**
 
 if you added your `email address` and `app password` in your system environment variable, include a keyword `env` to be `True`. And then put the variable name of your email address and email app password, instead of the raw email address and app password. See hint for this in your interpreter by calling the  '''help(Vault)''' class, enable `env` to be `True` in production instead of leaving the default which is `False` example::
 
-    kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd, env=True)
+    kyaah.sendMail(
+        from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd, env=True
+    )

@@ -42,7 +42,7 @@ Once that finish now install the library using::
 
     pip install kyaah
     
-Wait for the installation to finish, basically the library was uploaded using **sdist** (Source Distribution). After that create a new file let call it **test.py** in the file paste the below code with your credentials.
+Wait for the installation to finish, basically the library was uploaded using `sdist` (Source Distribution) and `bdist_wheel` (Built Distribution). After that create a new file let call it **test.py** in the file paste the below code with your credentials.
 
 .. code-block:: python
 

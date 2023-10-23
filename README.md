@@ -1,6 +1,6 @@
 # Kyaah
 
-Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
+Kyaah abstract away cognitive over-head of sending SMTP, POP3, and IMAP mail, together with other mailing operations things like, mail with file, tokens etc.
 
 [![Downloads Month Badge](https://static.pepy.tech/badge/kyaah/month)](https://pypi.org/project/kyaah)
 [![Downloads Week Badge](https://static.pepy.tech/badge/kyaah/week)](https://pypi.org/project/kyaah)

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
-
 from . import Serve
 from . import Faker
 from . import Tokens
 from . import selector
+from ._log import log_style
+from .base import LOGGER, FetchPOP, FetchIMAP
 
 
 def send():
@@ -151,13 +151,47 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
     base.mail_with_page(file=page, port=s_mail['port'][0])
 
 
+def fetch(): ...
+def fetch_mail_POP(sender, passwd, svr=None):
+    r"""
+    fetch mail (POP)
+
+    #:svr => this is your mail server, if you are using:
+        #:yahoo put yahoo,
+        #:gmail put gmail
+        #:outlook put outlook
+
+    Usage:
+        >>> import kyaah
+        >>> sender = 'youremail@gmail.com'
+        >>> passwd = '*********' # use app password
+        >>> kyaah.api.fetch_mail_POP(sender, passwd, 'gmail')
+    """
+    FetchPOP.fetch(sender, passwd, svr)
+
+
+def fetch_mail_IMAP(sender, passwd, svr=None):
+    r"""
+    fetch mail (IMAP)
+
+    #:svr => this is your mail server, if you are using:
+        #:yahoo put yahoo,
+        #:gmail put gmail
+        #:outlook put outlook
+
+    Usage:
+        >>> import kyaah
+        >>> sender = 'youremail@gmail.com'
+        >>> passwd = '*********' # use app password
+        >>> kyaah.api.fetch_mail_IMAP(sender, passwd, 'gmail')
+    """
+    FetchIMAP.fetch(sender, passwd, svr)
+
+
 def fk():
     """This function generate a random email address for you"""
-    formatter = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
-    logging.basicConfig(format = formatter)
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    logger.info(Faker().faker())
+    # LOGGER.info(Faker().faker())
+    log_style(Faker().faker())
 
 
 def otp(_range=False):

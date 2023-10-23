@@ -13,7 +13,7 @@
     Usage at a glance:
         >>> import kyaah
 
-        >>> sender = 'my_email@gmail.com'
+        >>> sender = 'youremail@gmail.com'
         >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
         >>> passwd = '*********' # use app password
 

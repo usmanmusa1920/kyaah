@@ -1,29 +1,41 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
 import imghdr
+import poplib
+import pprint
 import logging
 import smtplib
+import imaplib
+import email.utils
+import email.policy
 from email.message import EmailMessage
+from .server import Serve
 
-"""
-  NOTSET    ---  0
-  DEBUG     ---  10
-  INFO      ---  20
-  WARNING   ---  30  (default)
-  ERROR     ---  40
-  CRITICAL  ---  50
-"""
+# """
+# NOTSET    ---  0
+# DEBUG     ---  10
+# INFO      ---  20
+# WARNING   ---  30  (default)
+# ERROR     ---  40
+# CRITICAL  ---  50
+# """
 
 FORMATTER = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
 logging.basicConfig(format=FORMATTER)
 LOGGER = logging.getLogger()  # Creating an object
 LOGGER.setLevel(logging.DEBUG)  # Setting the threshold of LOGGER to DEBUG
+# platform-specific path separator (for linux `/`, for windows `\\`)
+OS_SEP = os.path.sep
 
 
 class BaseMail:
     """
     The base class for mail
     Note:
-      in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465, although kyaah has a dict tionary of server, where each server has a list of ports, SMTP server, etc.
+        in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465 (SSL), although kyaah has a dictionary of server, where each server has a list of ports, SMTP server, etc.
+
+        Kyaah uses SSL for email, because most of the servers like gmail, require SSL.
     """
 
     def __init__(
@@ -35,6 +47,7 @@ class BaseMail:
         mail_passwd=None,
         server=None,
     ):
+        """For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test"""
 
         self.from_usr = from_usr
         self.to_usr = to_usr
@@ -80,9 +93,16 @@ class BaseMail:
         # then we slice the first index from index `9` that mean we negate
         # `subj` variable of mail_msg method of this class
         # which is `Subject: `
-        msg['Subject'] = self.mail_msg.split('\n')[0][9:]
+
         msg['From'] = self.from_usr_addr
         msg['To'] = self.to_usr
+        msg['Subject'] = self.mail_msg.split('\n')[0][9:]
+        # The Subject field indicates the purpose of e-mail. It should be precise and to the point.
+
+        msg['Date'] = email.utils.formatdate(localtime=True)
+        msg['Message-ID'] = email.utils.make_msgid()
+        # sys.stdout.buffer.write(msg.as_bytes())
+
 
     def mail_open(self, msg, port):
         """
@@ -103,7 +123,7 @@ class BaseMail:
         self.check_required()
 
         if len(self.to_usr) > 1:
-            # f there is recepients
+            # if there is recepients
             for receiver in self.to_usr:
                 with smtplib.SMTP_SSL(self.server, port) as smtp:
                     smtp.login(self.from_usr_addr, self.mail_passwd_env)
@@ -120,14 +140,22 @@ class BaseMail:
         if maintype == 'application':
             with open(file_to, f_opration) as file_send:
                 f_read = file_send.read()
-                f_name = file_send.name
+                n = file_send.name
+                if OS_SEP in n:
+                    f_name = n.split(OS_SEP)[-1]
+                else:
+                    f_name = file_send.name
             _msg.add_attachment(
                 f_read, maintype=maintype, subtype='octet-stream', filename=f_name)
         if maintype == 'image':
             with open(file_to, f_opration) as img_send:
                 img_read = img_send.read()
                 f_type = imghdr.what(img_send.name)
-                f_name = img_send.name
+                n = img_send.name
+                if OS_SEP in n:
+                    f_name = n.split(OS_SEP)[-1]
+                else:
+                    f_name = img_send.name
             _msg.add_attachment(
                 img_read, maintype=maintype, subtype=f_type, filename=f_name)
 
@@ -139,9 +167,11 @@ class BaseMail:
             # if the list of to_usr is more than one
             for receiver in self.to_usr:
                 msg = EmailMessage()
-                msg['Subject'] = self.mail_msg.split('\n')[0][9:]
                 msg['From'] = self.from_usr_addr
                 msg['To'] = receiver
+                msg['Subject'] = self.mail_msg.split('\n')[0][9:]
+                msg['Date'] = email.utils.formatdate(localtime=True)
+                msg['Message-ID'] = email.utils.make_msgid()
                 msg.set_content(self.mail_msg.split('\n')[2])
 
                 if type(image) == list:
@@ -219,5 +249,157 @@ class BaseMail:
         elif file != None:
             with open(file) as f_html:
                 html_f = f_html.read()
-            msg.add_attachment(html_f, subtype='html')
+                n = f_html.name
+                if OS_SEP in n:
+                    f_name = n.split(OS_SEP)[-1]
+                else:
+                    f_name = f_html.name
+            msg.add_attachment(html_f, subtype='html', filename=f_name)
         self.mail_open(msg, port)
+
+
+"""
+POP3 (Post Office Protocol 3) and IMAP (Internet Message Access Protocol) both are MAA (Message accessing agent), both of these protocols are used to retrieve messages from the mail server to the receivers system. Both of these protocols are accounted for spam and virus filters. IMAP is more flexible and complex than POP3.
+
+Difference Between POP3 and IMAP:
+
+    POP3
+        IMAP
+    
+    POP is a simple protocol that only allows downloading messages from your Inbox to your local computer.
+        IMAP (Internet Message Access Protocol) is much more advanced and allows the user to see all the folders on the mail server.
+
+    The POP server listens on port 110, and the POP with SSL secure(POP3DS) server listens on port 995
+        The IMAP server listens on port 143, and the IMAP with SSL secure(IMAPDS) server listens on port 993.
+
+    In POP3 the mail can only be accessed from a single device at a time.
+        Messages can be accessed across multiple devices
+
+    To read the mail it has to be downloaded on the local system.
+        The mail content can be read partially before downloading.
+
+    The user can not organize mails in the mailbox of the mail server.
+        The user can organize the emails directly on the mail server.
+
+    The user can not create, delete or rename email on the mail server.
+        The user can create, delete or rename an email on the mail server.
+
+    It is unidirectional i.e. all the changes made on a device do not affect the content present on the server.
+        It is Bi-directional i.e. all the changes made on the server or device are made on the other side too.
+
+    It does not allow a user to sync emails.
+        It allows a user to sync their emails.
+
+    It is fast.
+        It is slower as compared to POP3.
+
+    A user can not search the content of mail before downloading it to the local system.
+        A user can search the content of mail for a specific string before downloading.
+
+    It has two modes: delete mode and keep mode. In delete mode, the mail is deleted from the mailbox after retrieval. In keep mode, the mail remains in the mailbox after retrieval.
+        Multiple redundant copies of the message are kept at the mail server, in case of loss of message of a local server, the mail can still be retrieved
+
+    Changes in the mail can be done using local email software.
+        Changes made to the web interface or email software stay in sync with the server.
+
+    All the messages are downloaded at once.
+        The Message header can be viewed prior to downloading.
+"""
+
+class FetchPOP:
+    """
+    Fetch POP mail
+
+    Pyhton`s poplib module provides classes named pop() and pop3_SSL() which are used to achieve this requirement.
+
+1	LOGIN
+This command opens the connection.
+2	STAT
+It is used to display number of messages currently in the mailbox.
+3	LIST
+It is used to get the summary of messages where each message summary is shown.
+4	RETR
+This command helps to select a mailbox to access the messages.
+5	DELE
+It is used to delete a message.
+6	RSET
+It is used to reset the session to its initial state.
+7	QUIT
+It is used to log off the session.
+    """
+    def __init__(self): ...
+    @staticmethod
+    def fetch(sender, passwd, svr, env=False, **kwargs):
+        """
+        fetch POP mail
+        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
+        """
+        s_mail = Serve.mail(svr)
+        
+        # Connect to the mail box
+        mail_box = poplib.POP3_SSL(s_mail['server'][1], s_mail['port'][2])
+        mail_box.user(sender)
+        mail_box.pass_(passwd)
+        NumofMessages = len(mail_box.list()[1])
+        for i in range(NumofMessages):
+            for msg in mail_box.retr(i+1)[1]:
+                print(msg)
+                print()
+        # print(mail_box.retr(255)[1])
+        print(mail_box.stat())
+        mail_box.quit()
+    def conn(self): ...
+
+
+class FetchIMAP:
+    """
+    Fetch IMAP mail
+
+    It enables us to take any action such as downloading, delete the mail without reading the mail.It enables us to create, manipulate and delete remote message folders called mail boxes.
+
+    IMAP enables the users to search the e-mails.
+
+    It allows concurrent access to multiple mailboxes on multiple mail servers.
+
+1	IMAP_LOGIN
+This command opens the connection.
+2	CAPABILITY
+This command requests for listing the capabilities that the server supports.
+3	NOOP
+This command is used as a periodic poll for new messages or message status updates during a period of inactivity.
+4	SELECT
+This command helps to select a mailbox to access the messages.
+5	EXAMINE
+It is same as SELECT command except no change to the mailbox is permitted.
+6	CREATE
+It is used to create mailbox with a specified name.
+7	DELETE
+It is used to permanently delete a mailbox with a given name.
+8	RENAME
+It is used to change the name of a mailbox.
+9	LOGOUT
+This command informs the server that client is done with the session. The server must send BYE untagged response before the OK response and then close the network connection.
+    """
+    def __init__(self): ...
+    @staticmethod
+    def fetch(sender, passwd, svr, env=False, **kwargs):
+        """
+        fetch IMAP mail
+        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
+        """
+        s_mail = Serve.mail(svr)
+
+        # connect to host using SSL
+        imap = imaplib.IMAP4_SSL(s_mail['server'][2])
+        # login to server
+        imap.login(sender, passwd)
+        imap.select('Inbox')
+
+        tmp, data = imap.search(None, 'ALL')
+        for num in data[0].split():
+            tmp, data = imap.fetch(num, '(RFC822)')
+            print('Message: {0}\n'.format(num))
+            pprint.pprint(data[0][1])
+            break
+        imap.close()
+    def conn(self): ...

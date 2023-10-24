@@ -4,6 +4,16 @@ import math
 import random
 import geocoder
 import requests
+# from itsdangerous import Serializer #(itsdangerous==2.1.2)
+# from itsdangerous.serializer import Serializer #(itsdangerous==2.1.2)
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdangerous==0.24)
+
+
+with open('config.json') as config_file:
+    config = json.load(config_file)
+
+    
+SECRET_KEY = config['SECRET_KEY']
 
 
 class Tokens:
@@ -51,3 +61,83 @@ class Faker:
         gue_raw = json.loads(self.make_request)
         _fake = gue_raw['email_addr']
         return {'fake_email': _fake}
+    
+
+class IzitDanger:
+    """
+    IzitDanger class for generating salting
+    
+    A reqular expression that matches any character that
+    should never appear in base 64 encodings would be:
+    [^A-Za-z0-9+/=]
+
+    we follow the base64 pattern of [^A-Za-z0-9+/=] that should never appear in base64, (in regex)
+
+    NOTE: usage:
+        >>> pass_cls = IzitDanger()
+        >>> pass_salt = pass_cls._salt
+        >>> print(pass_salt)
+    """
+
+    token_sm_alpha = 'abcdefghijklmnopqrstuvwxyz'
+    token_cap_alpha = token_sm_alpha.upper()
+    token_num = '0123456789'
+    # token_char = '/+='
+    token_sum = token_sm_alpha + token_cap_alpha + token_num
+
+    # We times the above variable (token_sum) by 2 (total length is 124),
+    # so that we will randomly select from it without any restriction,
+    # since we make the minimum length of the salt to be 32 and the maximum to be 64,
+    # and also it will randomly select from that range of (32 - 64)
+
+    token_times = token_sum * 2
+    token_list = list(token_times)
+    random.shuffle(token_list) # shuffling the above list
+    token_generate = ''.join(token_list)
+    
+    def __init__(self, token_generate = token_generate):
+        self.token_generate = ''.join(token_generate)
+        
+    @property
+    def _salt(self):
+        """
+        salting with this class method
+
+        By using the random sample method, where we make:
+            population = self.token_generate
+            k = random.randint(32, 64)
+        """
+        salt = ''.join(random.sample(self.token_generate, random.randint(32, 64)))
+        return salt # return type is string
+    
+    @staticmethod
+    def get_token(expires_sec=1):
+        """get token"""
+        s = Serializer(SECRET_KEY, expires_sec * 60)
+        # s = Serializer(SECRET_KEY) #(itsdangerous==2.1.2)
+        mysecret = IzitDanger()._salt
+        # return s.dumps([1,2,3,4])
+        # return s.dumps('mysecret')
+        return s.dumps(mysecret)
+    
+    @staticmethod
+    def verify_token(token):
+        """verify token (sign)"""
+        s = Serializer(SECRET_KEY)
+        try:
+            load_token = s.loads(token)
+        except:
+            return None
+        return load_token
+    
+    def __str__(self):
+        """str"""
+        return f'IzitDanger class'
+    
+    
+class Box: ...
+
+# from itsdangerous import TimestampSigner as ts
+# s = ts('secretkey')
+# string = s.sign('foo')
+# s.unsign(string, max_age=5)

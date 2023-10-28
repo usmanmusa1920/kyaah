@@ -9,11 +9,7 @@ import requests
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdangerous==0.24)
 
 
-with open('config.json') as config_file:
-    config = json.load(config_file)
-
-    
-SECRET_KEY = config['SECRET_KEY']
+SECRET_KEY = '5068b4fec3aadefef830137fcee44af81751d6c6a09b6f7eef' # use your secrets key
 
 
 class Tokens:

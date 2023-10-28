@@ -3,7 +3,7 @@ from . import Serve
 from . import Faker
 from . import Tokens
 from . import selector
-from ._log import log_style
+from pstyle import log_style
 from .base import LOGGER, FetchPOP, FetchIMAP
 
 
@@ -188,10 +188,12 @@ def fetch_mail_IMAP(sender, passwd, svr=None):
     FetchIMAP.fetch(sender, passwd, svr)
 
 
-def fk():
+def fk(style: False / True = True):
     """This function generate a random email address for you"""
-    # LOGGER.info(Faker().faker())
-    log_style(Faker().faker())
+    if style == False:
+        LOGGER.info(Faker().faker())
+    else:
+        log_style(Faker().faker())
 
 
 def otp(_range=False):

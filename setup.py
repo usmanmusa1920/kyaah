@@ -64,6 +64,7 @@ setup(
     
     # List of other python modules which this module depends on.  For example RPi.GPIO
     install_requires = [
+        'pstyle>=0.0.1',
         'geocoder>=1.38.1',
         'itsdangerous==0.24',
     ],

@@ -49,7 +49,7 @@ def localMail(svr=None, env=False, port=False, **kwargs):
 
 def sendMail(svr=None, env=False, **kwargs):
     r"""
-    send a simple SMTP mail
+    Send a simple SMTP mail
     :svr: this is the type of the sender mail, for google -> gmail, for yahoo -> yahoo, etc
 
     Usage:
@@ -76,7 +76,7 @@ def sendMail(svr=None, env=False, **kwargs):
 
 def sendImages(images=None, env=False, svr=None, **kwargs):
     r"""
-    send simple mail with image(s)
+    Send simple mail with image(s)
 
     Usage:
         >>> import kyaah
@@ -102,7 +102,7 @@ def sendImages(images=None, env=False, svr=None, **kwargs):
 
 def sendFiles(files=None, env=False, svr=None, **kwargs):
     r"""
-    send simple mail with file(s)
+    Send simple mail with file(s)
 
     Usage:
         >>> import kyaah
@@ -128,7 +128,7 @@ def sendFiles(files=None, env=False, svr=None, **kwargs):
 
 def sendPage(page='default', env=False, svr=None, **kwargs):
     r"""
-    send simple mail with page
+    Send simple mail with page
     
     Usage:
         >>> import kyaah
@@ -152,9 +152,10 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
 
 
 def fetch(): ...
+
 def fetch_mail_POP(sender, passwd, svr=None):
     r"""
-    fetch mail (POP)
+    Fetch mail (POP)
 
     #:svr => this is your mail server, if you are using:
         #:yahoo put yahoo,
@@ -172,7 +173,7 @@ def fetch_mail_POP(sender, passwd, svr=None):
 
 def fetch_mail_IMAP(sender, passwd, svr=None):
     r"""
-    fetch mail (IMAP)
+    Fetch mail (IMAP)
 
     #:svr => this is your mail server, if you are using:
         #:yahoo put yahoo,
@@ -181,15 +182,55 @@ def fetch_mail_IMAP(sender, passwd, svr=None):
 
     Usage:
         >>> import kyaah
+
         >>> sender = 'youremail@gmail.com'
         >>> passwd = '*********' # use app password
-        >>> kyaah.api.fetch_mail_IMAP(sender, passwd, 'gmail')
+
+        >>> f = kyaah.fetch_imap(sender, passwd, 'gmail')
+
+        >>> f.folder()
+        >>> f.folder(see=True)
+        >>> f.folder(see=True, folder='"[Gmail]/All Mail"')
+        >>> f.folder(see=True, folder='"[Imap]/Trash"')
+        
+        >>> f.fetch('Inbox')
     """
-    FetchIMAP.fetch(sender, passwd, svr)
+    f = FetchIMAP(sender, passwd, svr)
+    return f
+
+
+def fetch_mail_POP(sender, passwd, svr=None):
+    r"""
+    Fetch mail (POP)
+
+    #:svr => this is your mail server, if you are using:
+        #:yahoo put yahoo,
+        #:gmail put gmail
+        #:outlook put outlook
+
+    Usage:
+        >>> import kyaah
+
+        >>> sender = 'youremail@gmail.com'
+        >>> passwd = '*********' # use app password
+
+        >>> f = kyaah.fetch_pop(sender, passwd, 'gmail')
+
+        >>> f.folder()
+        >>> f.folder(see=True)
+        >>> f.folder(see=True, folder='"[Gmail]/All Mail"')
+        >>> f.folder(see=True, folder='"[Imap]/Trash"')
+        
+        >>> f.fetch('Inbox')
+    """
+    f = FetchPOP(sender, passwd, svr)
+    return f
 
 
 def fk(style: False / True = True):
-    """This function generate a random email address for you"""
+    """
+    This function generate a random email address for you
+    """
     if style == False:
         LOGGER.info(Faker().faker())
     else:
@@ -197,7 +238,9 @@ def fk(style: False / True = True):
 
 
 def otp(_range=False):
-    """This function give you a random OTP code"""
+    """
+    This function give you a random OTP code
+    """
     if _range:
         return Tokens().mail_otp(_range)
     return Tokens().mail_otp()

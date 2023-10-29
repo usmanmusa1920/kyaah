@@ -52,7 +52,9 @@ status_codes = {
 
 
 def selector(env=None):
-    """decide a class for `environment variable` for security purpose or not"""
+    """
+    Decide a class for `environment variable` for security purpose or not
+    """
     if env:
         cls = Vault
     else:
@@ -74,3 +76,5 @@ from .api import sendFiles
 from .api import sendPage
 from .api import fk
 from .api import otp
+from .api import fetch_mail_IMAP as fetch_imap
+from .api import fetch_mail_POP as fetch_pop

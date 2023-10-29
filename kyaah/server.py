@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+Kyaah.server
+~~~~~~~~~~~~
+
+It simplify mail servers stuffs for ease!
+"""
+
 server = {
     'gmail': {
         'server': [
@@ -53,6 +60,10 @@ server = {
 
 
 class Serve:
-    """This class handle SMTP server suffs"""
+    """
+    This class handle SMTP server suffs
+    """
+
     def mail(mail):
+        """It return server related credentials"""
         return server[mail]

@@ -25,16 +25,19 @@ class Tokens:
     
 
 class Faker:
-    """class that give you random email address"""
+    """
+    Class that give you random email address
+    """
     
     _source = ['https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=', '&agent=Mozilla_foo_bar']
     
     def __init__(self, url=_source, ip='me'):
+        """Faker init"""
         self.url = url
         self.ip = ip
 
     def what_ip(self):
-        """find ip address of the requester"""
+        """Find ip address of the requester"""
         g = geocoder.ip(self.ip).raw
         ip = g.get('ip')
         return ip
@@ -53,7 +56,7 @@ class Faker:
         return r
     
     def faker(self) -> dict:
-        """give the actual maill address generated from guerrillamail"""
+        """Give the actual maill address generated from guerrillamail"""
         gue_raw = json.loads(self.make_request)
         _fake = gue_raw['email_addr']
         return {'fake_email': _fake}
@@ -61,7 +64,7 @@ class Faker:
 
 class IzitDanger:
     """
-    IzitDanger class for generating salting
+    IzitDanger class for generating salting 🤔
     
     A reqular expression that matches any character that
     should never appear in base 64 encodings would be:
@@ -97,7 +100,7 @@ class IzitDanger:
     @property
     def _salt(self):
         """
-        salting with this class method
+        Salting with this class method
 
         By using the random sample method, where we make:
             population = self.token_generate
@@ -108,7 +111,7 @@ class IzitDanger:
     
     @staticmethod
     def get_token(expires_sec=1):
-        """get token"""
+        """Get token"""
         s = Serializer(SECRET_KEY, expires_sec * 60)
         # s = Serializer(SECRET_KEY) #(itsdangerous==2.1.2)
         mysecret = IzitDanger()._salt
@@ -118,7 +121,7 @@ class IzitDanger:
     
     @staticmethod
     def verify_token(token):
-        """verify token (sign)"""
+        """Verify token (sign)"""
         s = Serializer(SECRET_KEY)
         try:
             load_token = s.loads(token)
@@ -127,7 +130,7 @@ class IzitDanger:
         return load_token
     
     def __str__(self):
-        """str"""
+        """Dunder str"""
         return f'IzitDanger class'
     
     

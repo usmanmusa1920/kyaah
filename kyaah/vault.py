@@ -12,10 +12,10 @@ class Vault(BaseMail):
     
     @property
     def from_usr_addr(self):
-        """get sender mail address from environment variable"""
+        """Get sender mail address from environment variable"""
         return os.environ.get(self.from_usr)
     
     @property
     def mail_passwd_env(self):
-        """get sender mail password/app_password from environment variable"""
+        """Get sender mail password/app_password from environment variable"""
         return os.environ.get(self.mail_passwd)

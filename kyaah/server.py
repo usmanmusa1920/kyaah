@@ -7,6 +7,10 @@
 It simplify mail servers stuffs with ease!
 """
 
+
+# box = imaplib.IMAP4_SSL('imap.mail.microsoftonline.com', 993)
+
+
 server = {
     # Local Mail Settings
     'local': {

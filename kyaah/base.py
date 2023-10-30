@@ -382,13 +382,6 @@ class FetchPOP:
         """
         Making connection
         """
-        # s_mail = Serve.mail(self.svr)
-        # # connect to host using SSL
-        # imap = imaplib.IMAP4_SSL(s_mail['server'][2])
-        # # login to server
-        # imap.login(self.sender, self.passwd)
-        # # return imap
-        # self.imapp = imap
         s_mail = Serve.mail(self.svr)
 
         if s_mail['server'][1] == 'icloud':
@@ -406,13 +399,7 @@ class FetchPOP:
         Fetch POP mail (count)
         :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
         """
-
-        # s_mail = Serve.mail(svr)
         
-        # # Connect to the mail box
-        # mail_box = poplib.POP3_SSL(s_mail['server'][1], s_mail['port'][2])
-        # mail_box.user(sender)
-        # mail_box.pass_(passwd)
         self.conn()
         NumofMessages = len(self.mail_box.list()[1])
         rr = range(1,NumofMessages+1)
@@ -433,18 +420,12 @@ class FetchPOP:
         print(self.mail_box.stat())
         self.mail_box.quit()
         
-    def fetch(self):
+    def fetch(self, n=False):
         """
         Fetch POP mail
         :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
         """
-
-        # s_mail = Serve.mail(svr)
         
-        # # Connect to the mail box
-        # mail_box = poplib.POP3_SSL(s_mail['server'][1], s_mail['port'][2])
-        # mail_box.user(sender)
-        # mail_box.pass_(passwd)
         self.conn()
         NumofMessages = len(self.mail_box.list()[1])
         for i in range(NumofMessages):
@@ -499,7 +480,7 @@ class FetchIMAP:
         """
         s_mail = Serve.mail(self.svr)
         # connect to host using SSL
-        imap = imaplib.IMAP4_SSL(s_mail['server'][2], s_mail['port'][2])
+        imap = imaplib.IMAP4_SSL(s_mail['server'][2], s_mail['port'][3])
         # login to server
         imap.login(self.sender, self.passwd)
         self.imapp = imap
@@ -545,34 +526,43 @@ class FetchIMAP:
         NOTE
             when pass folder name like:
                 [Gmail]/All Mail
-            ensure to wrapp it with double qoute "" like:
+            ensure to wrapp it with double qoute "" to avoid error, like:
                 folder='"[Gmail]/All Mail"'
-            to avoid error
         """
         
         self.conn()
+
+        # select the mailbox (maybe if I want to delete in, or search within)
         s_status, b = self.imapp.select(folder)
-        tmp, data = self.imapp.search(None, 'ALL')
-        # status, messages = self.imapp.search(None, 'ALL')
-        if tmp == 'OK':
+
+        # # search for specific mails by sender
+        # status, messages = imapp.search(None, 'FROM "googlealerts-noreply@google.com"')
+
+        # # to get mails by subject
+        # status, messages = imapp.search(None, 'SUBJECT "Thanks for Subscribing to our Newsletter !"')
+
+        # # to get mails after a specific date
+        # status, messages = imapp.search(None, 'SINCE "01-JAN-2020"')
+
+        # # to get mails before a specific date
+        # status, messages = imapp.search(None, 'BEFORE "01-JAN-2020"')
+
+        # to get all mails
+        status, messages = self.imapp.search(None, 'ALL')
+        
+        if status == 'OK':
             ok('Searching mailbox')
         else:
-            print('ERROR: Unable to search mailbox ', tmp)
+            print('ERROR: Unable to search mailbox ', status)
             sys.exit()
-
-        # for i in data[0].split():
-        #     print(i)
-        #     print()
-        print(len(data[0].split()))
-        for num in data[0].split():
-            tmp, data = self.imapp.fetch(num, '(RFC822)')
-            # print(tmp)
+            
+        print(f'There is {len(messages[0].split())} emails here')
+        for num in messages[0].split():
+            _, msg = self.imapp.fetch(num, '(RFC822)')
             print()
-            print('Message: {0}\n'.format(num))
-            # pprint.pprint(data[0][1])
-            # pprint.pprint(data)
-            # print(data)
-            for d in data[0][1].decode().split('\r\n'):
+            print('Message: {0}, {1}\n'.format(num, msg[0][0]))
+            # pprint.pprint(msg)
+            for d in msg[0][1].decode().split('\r\n'):
                 print(d)
             print()
             print()

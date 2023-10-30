@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+# =============
+# Kyaah @ vault
+# =============
+"""
+
 import os
 from . import BaseMail
 

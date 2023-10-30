@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+# =============
+# Kyaah @ utils
+# =============
+"""
+
 import json
 import math
 import random
@@ -8,21 +14,6 @@ import requests
 # from itsdangerous.serializer import Serializer #(itsdangerous==2.1.2)
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdangerous==0.24)
 
-
-SECRET_KEY = '5068b4fec3aadefef830137fcee44af81751d6c6a09b6f7eef' # use your secrets key
-
-
-class Tokens:
-    """The base class for OTP mail"""
-    
-    def mail_otp(self, _range=6):
-        """send otp code"""
-        digits = '0123456789'
-        OTP = ''
-        for _ in range(_range):
-            OTP += digits[math.floor(random.random()*10)]
-        return OTP
-    
 
 class Faker:
     """
@@ -110,19 +101,19 @@ class IzitDanger:
         return salt # return type is string
     
     @staticmethod
-    def get_token(expires_sec=1):
+    def get_token(mysecret, secret_key, expires_min=1):
         """Get token"""
-        s = Serializer(SECRET_KEY, expires_sec * 60)
-        # s = Serializer(SECRET_KEY) #(itsdangerous==2.1.2)
-        mysecret = IzitDanger()._salt
+        s = Serializer(secret_key, expires_min * 60)
+        # s = Serializer(secret_key) #(itsdangerous==2.1.2)
+        # mysecret = IzitDanger()._salt
         # return s.dumps([1,2,3,4])
         # return s.dumps('mysecret')
         return s.dumps(mysecret)
     
     @staticmethod
-    def verify_token(token):
+    def verify_token(secret_key, token):
         """Verify token (sign)"""
-        s = Serializer(SECRET_KEY)
+        s = Serializer(secret_key)
         try:
             load_token = s.loads(token)
         except:
@@ -133,7 +124,66 @@ class IzitDanger:
         """Dunder str"""
         return f'IzitDanger class'
     
+
+class Tokens:
+    """The base class for OTP mail"""
+
+    def __init__(self): ...
     
+    def mail_otp(self, _range=6):
+        """send otp code"""
+        digits = '0123456789'
+        OTP = ''
+        for _ in range(_range):
+            OTP += digits[math.floor(random.random()*10)]
+        return OTP
+    
+    @staticmethod
+    def link(mysecret, age=1):
+        """
+        Method that ease making link session age
+
+        Usage:
+            >>> import kyaah
+            >>> l = 'https://kyaah.readthedocs.io'
+            >>> a = kyaah.Tokens.link(l)
+            >>> secret = a[0] # random text/numbers
+            >>> data = a[1] # encode and salted
+
+            >>> sender = 'myemail@gmail.com'
+            >>> receiver = ['useremail_1@gmail.com', 'useremail_2@gmail.com']
+            >>> mail_serve ='gmail'
+            >>> subj = 'Kyaah link age utility'
+            >>> msg = f'Hi! you can follow this link {l} and update your password, it will expire in 60 seconds. Thank you!'
+            >>> passwd = '***********'
+
+            >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=msg, mail_passwd=passwd)
+            
+        Make sure to save the `secret` some where safe (database, private repository, etc).
+        And the `data` is the encode data with a session age (default is 1-minute).
+
+        In real, it could be use if want to reset email address, by given amount of time, that the link will be expired!
+        """
+        secret = IzitDanger()._salt
+        d = IzitDanger.get_token(mysecret, secret, age)
+        return [secret, d]
+    
+    @staticmethod
+    def unlink(secret_key, token):
+        """
+        Method that ease unlinking session age
+
+        Usage:
+            >>> import kyaah
+            >>> secret = '***********'
+            >>> data = '***********'
+            >>> a = kyaah.Tokens.unlink(secret, data)
+        """
+        # secret = IzitDanger()._salt
+        d = IzitDanger.verify_token(secret_key, token)
+        return d
+
+
 class Box: ...
 
 # from itsdangerous import TimestampSigner as ts

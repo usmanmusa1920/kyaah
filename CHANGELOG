@@ -1,13 +1,14 @@
 Change Log
 ==========
 
-## 0.1.13 (**/september/2023)
+## 0.1.13 (**/november/2023)
 
 - 0.1.13 Release
 
     - Add character style print (text & logging style)
     - Add POP and IMAP
     - Improve files naming slices
+    - Include email link (with expiration age)
 
 - 0.1.12 Release
 

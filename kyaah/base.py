@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+# ============
+# Kyaah @ base
+# ============
+"""
+
 import os
 import sys
 import time
@@ -11,6 +17,7 @@ import imaplib
 import email.utils
 import email.policy
 from email.message import EmailMessage
+from pstyle import log_style
 from .server import Serve
 
 # """
@@ -383,6 +390,10 @@ class FetchPOP:
         # # return imap
         # self.imapp = imap
         s_mail = Serve.mail(self.svr)
+
+        if s_mail['server'][1] == 'icloud':
+            log_style('Not supported')
+            raise PermissionError
         
         # Connect to the mail box
         mail_box = poplib.POP3_SSL(s_mail['server'][1], s_mail['port'][2])
@@ -488,7 +499,7 @@ class FetchIMAP:
         """
         s_mail = Serve.mail(self.svr)
         # connect to host using SSL
-        imap = imaplib.IMAP4_SSL(s_mail['server'][2])
+        imap = imaplib.IMAP4_SSL(s_mail['server'][2], s_mail['port'][2])
         # login to server
         imap.login(self.sender, self.passwd)
         self.imapp = imap

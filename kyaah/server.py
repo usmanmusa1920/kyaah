@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-# ==============
-# Kyaah @ server
-# ==============
 
-It simplify mail servers stuffs with ease!
-"""
-
+# It simplify mail servers stuffs with ease!
 
 # box = imaplib.IMAP4_SSL('imap.mail.microsoftonline.com', 993)
 
@@ -120,10 +114,9 @@ server = {
 
 
 class Serve:
-    """
-    This class handle SMTP server suffs
-    """
+    """This class handle SMTP server suffs."""
 
     def mail(mail):
         """It return server related credentials"""
+        
         return server[mail]

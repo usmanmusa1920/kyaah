@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-## 0.1.13 (**/november/2023)
+## 0.1.13 (16/january/2024)
 
 - 0.1.13 Release
 
@@ -9,6 +9,7 @@ Change Log
     - Add POP and IMAP
     - Improve files naming slices
     - Include email link (with expiration age)
+    - Changed the a required module of 'pstyle' to 'rgbpy'
 
 - 0.1.12 Release
 

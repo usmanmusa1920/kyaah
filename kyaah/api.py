@@ -1,23 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-# ===========
-# Kyaah @ api
-# ===========
-"""
-
 from . import Serve
 from . import Faker
 from . import Tokens
 from . import selector
-from pstyle import log_style
+from rgbpy import log_style
 from .base import LOGGER, FetchPOP, FetchIMAP
 
 
 def send():
     """
-    This function can be use for any kind of mail operation, being it,
-    simple mail, attach file for a mail, attach html page with mail,
-    attach image file, etc
+    This function can be use for any kind of mail operation, being it, simple mail, attach file for a mail, attach html page with mail, attach image file, etc.
     """
     pass
 
@@ -42,10 +34,12 @@ def localMail(svr=None, env=False, port=False, **kwargs):
 
     s_mail = Serve.mail(svr)
     cls = selector(env=env)
+
     base = cls(
         # slicing the first index of the server list, even though it's only one item
         server = s_mail['server'][0], **kwargs
         )
+    
     # slicing the first index of the port list, even though it's only one item
     if port:
         base.local_mail(port=port)
@@ -72,10 +66,12 @@ def sendMail(svr=None, env=False, **kwargs):
     
     s_mail = Serve.mail(svr)
     cls = selector(env=env)
+
     base = cls(
         # slicing the first index of the server list, even though it's only one item
         server = s_mail['server'][0], **kwargs
         )
+    
     # slicing the first index of the port list, even though it's only one item
     base.send_mail(port=s_mail['port'][0])
 
@@ -96,12 +92,15 @@ def sendImages(images=None, env=False, svr=None, **kwargs):
 
         >>> kyaah.sendImages(images=images, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
     """
+
     s_mail = Serve.mail(svr)
     cls = selector(env=env)
+
     base = cls(
         # slicing the first index of the server list, even though it's only one item
         server = s_mail['server'][0], **kwargs
         )
+    
     # slicing the first index of the port list, even though it's only one item
     base.mail_with_image(images, port=s_mail['port'][0])
 
@@ -122,12 +121,15 @@ def sendFiles(files=None, env=False, svr=None, **kwargs):
 
         >>> kyaah.sendFiles(files=files, from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
     """
+
     s_mail = Serve.mail(svr)
     cls = selector(env=env)
+
     base = cls(
         # slicing the first index of the server list, even though it's only one item
         server = s_mail['server'][0], **kwargs
         )
+    
     # slicing the first index of the port list, even though it's only one item
     base.mail_with_file(files, port=s_mail['port'][0])
 
@@ -147,68 +149,27 @@ def sendPage(page='default', env=False, svr=None, **kwargs):
         
         >>> kyaah.sendPage(page='index.html', from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=body, mail_passwd=passwd)
     """
+
     s_mail = Serve.mail(svr)
     cls = selector(env=env)
+
     base = cls(
         # slicing the first index of the server list, even though it's only one item
         server = s_mail['server'][0], **kwargs
         )
+    
     # slicing the first index of the port list, even though it's only one item
     base.mail_with_page(file=page, port=s_mail['port'][0])
 
 
 def fetch(): ...
 
-def fetch_mail_POP(sender, passwd, svr=None):
+
+def fetch_mail_POP(sender, passwd, svr=None, **kwargs):
     r"""
     Fetch mail (POP)
 
-    #:svr => this is your mail server, if you are using:
-        #:yahoo put yahoo,
-        #:gmail put gmail
-        #:outlook put outlook
-
-    Usage:
-        >>> import kyaah
-        >>> sender = 'youremail@gmail.com'
-        >>> passwd = '*********' # use app password
-        >>> kyaah.api.fetch_mail_POP(sender, passwd, 'gmail')
-    """
-    FetchPOP.fetch(sender, passwd, svr)
-
-
-def fetch_mail_IMAP(sender, passwd, svr=None):
-    r"""
-    Fetch mail (IMAP)
-
-    #:svr => this is your mail server, if you are using:
-        #:yahoo put yahoo,
-        #:gmail put gmail
-        #:outlook put outlook
-
-    Usage:
-        >>> import kyaah
-
-        >>> sender = 'youremail@gmail.com'
-        >>> passwd = '*********' # use app password
-
-        >>> f = kyaah.fetch_imap(sender, passwd, 'gmail')
-
-        >>> f.folder()
-        >>> f.folder(see=True)
-        >>> f.folder(see=True, folder='"[Gmail]/All Mail"')
-        >>> f.folder(see=True, folder='"[Imap]/Trash"')
-        
-        >>> f.fetch('Inbox')
-    """
-    f = FetchIMAP(sender, passwd, svr)
-    return f
-
-
-def fetch_mail_POP(sender, passwd, svr=None):
-    r"""
-    Fetch mail (POP)
-
+    :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
     #:svr => this is your mail server, if you are using:
         #:yahoo put yahoo,
         #:gmail put gmail
@@ -229,14 +190,44 @@ def fetch_mail_POP(sender, passwd, svr=None):
         
         >>> f.fetch('Inbox')
     """
-    f = FetchPOP(sender, passwd, svr)
+
+    f = FetchPOP(sender, passwd, svr, **kwargs)
+    return f
+
+
+def fetch_mail_IMAP(sender, passwd, svr=None, **kwargs):
+    r"""
+    Fetch mail (IMAP)
+
+    :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
+    #:svr => this is your mail server, if you are using:
+        #:yahoo put yahoo,
+        #:gmail put gmail
+        #:outlook put outlook
+
+    Usage:
+        >>> import kyaah
+
+        >>> sender = 'youremail@gmail.com'
+        >>> passwd = '*********' # use app password
+
+        >>> f = kyaah.fetch_imap(sender, passwd, 'gmail')
+
+        >>> f.folder()
+        >>> f.folder(see=True)
+        >>> f.folder(see=True, folder='"[Gmail]/All Mail"')
+        >>> f.folder(see=True, folder='"[Imap]/Trash"')
+        
+        >>> f.fetch('Inbox')
+    """
+
+    f = FetchIMAP(sender, passwd, svr, **kwargs)
     return f
 
 
 def fk(style: False / True = True):
-    """
-    This function generate a random email address for you
-    """
+    """This function generate a random email address for you."""
+
     if style == False:
         LOGGER.info(Faker().faker())
     else:
@@ -244,9 +235,8 @@ def fk(style: False / True = True):
 
 
 def otp(_range=False):
-    """
-    This function give you a random OTP code
-    """
+    """This function give you a random OTP code."""
+
     if _range:
         return Tokens().mail_otp(_range)
     return Tokens().mail_otp()

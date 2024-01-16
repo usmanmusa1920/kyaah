@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-# ============
-# Kyaah @ base
-# ============
-"""
-
 import os
 import sys
 import time
@@ -17,45 +11,32 @@ import imaplib
 import email.utils
 import email.policy
 from email.message import EmailMessage
-from pstyle import log_style
+from rgbpy import log_style
 from .server import Serve
 
-# """
+
 # NOTSET    ---  0
 # DEBUG     ---  10
 # INFO      ---  20
 # WARNING   ---  30  (default)
 # ERROR     ---  40
 # CRITICAL  ---  50
-# """
 
 FORMATTER = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
 logging.basicConfig(format=FORMATTER)
-LOGGER = logging.getLogger()  # Creating an object
-LOGGER.setLevel(logging.DEBUG)  # Setting the threshold of LOGGER to DEBUG
+# Creating an object
+LOGGER = logging.getLogger()
+# Setting the threshold of LOGGER to DEBUG
+LOGGER.setLevel(logging.DEBUG)
 # platform-specific path separator (for linux `/`, for windows `\\`)
 OS_SEP = os.path.sep
-
-
-def ok(msg):
-    """Email is ok"""
-    print(msg + ' ', end='', flush=True)
-    num = 0
-    for _ in range(3):
-        num += 1
-        time.sleep(0.3)
-        print('.', end='', flush=True)
-    print(' OK')
-    time.sleep(1)
 
 
 class BaseMail:
     """
     Base class for mail
-    NOTE:
-        in all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465 (SSL), although kyaah has a dictionary of server, where each server has a list of ports, SMTP server, etc.
-
-        Kyaah uses SSL for email, because most of the servers like gmail, require SSL.
+    
+    In all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465 (SSL), although kyaah has a dictionary of server, where each server has a list of ports, SMTP server, etc.
     """
 
     def __init__(
@@ -68,7 +49,7 @@ class BaseMail:
         server=None,
     ):
         """
-        For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test
+        For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test.
         """
 
         self.from_usr = from_usr
@@ -86,16 +67,19 @@ class BaseMail:
     @property
     def from_usr_addr(self):
         """The sender mail address"""
+
         return self.from_usr
 
     @property
     def mail_passwd_env(self):
         """The sender mail password"""
+
         return self.mail_passwd
 
     @property
     def mail_msg(self):
         """Content of the mail (subject and message body)"""
+
         subj = self.subject
         body = self.body
         data = f'Subject: {subj}\n\n{body}'
@@ -103,6 +87,7 @@ class BaseMail:
 
     def check_required(self):
         """Checking for required values"""
+
         while self.mail_passwd == None:
             raise UnboundLocalError(f'`mail_passwd` is required')
         while self.server == None:
@@ -110,6 +95,7 @@ class BaseMail:
 
     def mail_head(self, msg):
         """Contains the sender, receiver and subject"""
+
         # grab the subject from `mail_msg` method by spliting it,
         # and grab the first index which is the subject,
         # then we slice the first index from index `9` that mean we negate
@@ -148,17 +134,20 @@ class BaseMail:
         """
         This open the connection, and login to email address using email address provided together with password/app_password
         """
+
         with smtplib.SMTP_SSL(self.server, port) as smtp:
             smtp.login(self.from_usr_addr, self.mail_passwd_env)
             smtp.send_message(msg)
 
     def local_mail(self, port=1025):
         """Localhost mail"""
+
         with smtplib.SMTP(self.server, port) as smtp:
             smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
 
     def send_mail(self, port=25):
         """Send mail with ssl security"""
+
         # recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class
         self.check_required()
 
@@ -177,6 +166,7 @@ class BaseMail:
         """
         Kyaah file to send utility method, used for `mail_with_image` and `mail_with_file`
         """
+
         # maintype = 'image' for sending image
         # maintype = 'application' for sending files like pdf
 
@@ -204,6 +194,7 @@ class BaseMail:
 
     def mail_with_image(self, image, port=25):
         """Send mail together with an image"""
+
         self.check_required()
 
         if len(self.to_usr) > 1:
@@ -250,6 +241,7 @@ class BaseMail:
 
     def mail_with_file(self, mail_files, port=25):
         """Send mail together with a list of mail_files"""
+
         self.check_required()
 
         msg = EmailMessage()
@@ -301,87 +293,35 @@ class BaseMail:
         self.mail_open(msg, port)
 
 
-"""
-POP3 (Post Office Protocol 3) and IMAP (Internet Message Access Protocol) both are MAA (Message accessing agent), both of these protocols are used to retrieve messages from the mail server to the receivers system. Both of these protocols are accounted for spam and virus filters. IMAP is more flexible and complex than POP3.
-
-Difference Between POP3 and IMAP:
-
-    POP3
-        IMAP
+def ok(msg):
+    """It is ok"""
     
-    POP is a simple protocol that only allows downloading messages from your Inbox to your local computer.
-        IMAP (Internet Message Access Protocol) is much more advanced and allows the user to see all the folders on the mail server.
+    print(msg + ' ', end='', flush=True)
+    num = 0
+    for _ in range(3):
+        num += 1
+        time.sleep(0.3)
+        print('.', end='', flush=True)
+    print(' OK')
+    time.sleep(1)
 
-    The POP server listens on port 110, and the POP with SSL secure(POP3DS) server listens on port 995
-        The IMAP server listens on port 143, and the IMAP with SSL secure(IMAPDS) server listens on port 993.
-
-    In POP3 the mail can only be accessed from a single device at a time.
-        Messages can be accessed across multiple devices
-
-    To read the mail it has to be downloaded on the local system.
-        The mail content can be read partially before downloading.
-
-    The user can not organize mails in the mailbox of the mail server.
-        The user can organize the emails directly on the mail server.
-
-    The user can not create, delete or rename email on the mail server.
-        The user can create, delete or rename an email on the mail server.
-
-    It is unidirectional i.e. all the changes made on a device do not affect the content present on the server.
-        It is Bi-directional i.e. all the changes made on the server or device are made on the other side too.
-
-    It does not allow a user to sync emails.
-        It allows a user to sync their emails.
-
-    It is fast.
-        It is slower as compared to POP3.
-
-    A user can not search the content of mail before downloading it to the local system.
-        A user can search the content of mail for a specific string before downloading.
-
-    It has two modes: delete mode and keep mode. In delete mode, the mail is deleted from the mailbox after retrieval. In keep mode, the mail remains in the mailbox after retrieval.
-        Multiple redundant copies of the message are kept at the mail server, in case of loss of message of a local server, the mail can still be retrieved
-
-    Changes in the mail can be done using local email software.
-        Changes made to the web interface or email software stay in sync with the server.
-
-    All the messages are downloaded at once.
-        The Message header can be viewed prior to downloading.
-"""
 
 class FetchPOP:
     """
-    Fetch POP mail
-
-    Pyhton`s poplib module provides classes named pop() and pop3_SSL() which are used to achieve this requirement.
-
-    1	LOGIN
-    This command opens the connection.
-    2	STAT
-    It is used to display number of messages currently in the mailbox.
-    3	LIST
-    It is used to get the summary of messages where each message summary is shown.
-    4	RETR
-    This command helps to select a mailbox to access the messages.
-    5	DELE
-    It is used to delete a message.
-    6	RSET
-    It is used to reset the session to its initial state.
-    7	QUIT
-    It is used to log off the session.
+    Fetch POP mail, it downloads the emails in the `inbox folder` on the email server to your device. This means that POP3 doesn't retrieve emails located in other folders such as `Sent, Draft, custom folders` and so on.
     """
 
     def __init__(self, sender, passwd, svr):
         """Kyaah POP init"""
+
         self.sender = sender
         self.passwd = passwd
         self.svr = svr
         self.mail_box = None
 
     def conn(self):
-        """
-        Making connection
-        """
+        """Making connection"""
+
         s_mail = Serve.mail(self.svr)
 
         if s_mail['server'][1] == 'icloud':
@@ -393,49 +333,48 @@ class FetchPOP:
         mail_box.user(self.sender)
         mail_box.pass_(self.passwd)
         self.mail_box = mail_box
-        
-    def count(self, n):
-        """
-        Fetch POP mail (count)
-        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
-        """
-        
-        self.conn()
-        NumofMessages = len(self.mail_box.list()[1])
-        rr = range(1,NumofMessages+1)
-        print(rr)
-        if n not in rr:
-            print('Out of range, range is {}'.format(range(1,NumofMessages+1)))
-            exit()
-        # print(self.mail_box.retr(n+1)[1])
-        for msg in self.mail_box.retr(n+1)[1]:
-            # print(msg.decode())
-            print(msg)
-            # print()
-        # for i in range(NumofMessages):
-        #     for msg in self.mail_box.retr(i+1)[1]:
-        #         print(msg)
-        #         print()
-        # print(mail_box.retr(255)[1])
-        print(self.mail_box.stat())
-        self.mail_box.quit()
-        
-    def fetch(self, n=False):
-        """
-        Fetch POP mail
-        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
-        """
-        
-        self.conn()
-        NumofMessages = len(self.mail_box.list()[1])
-        for i in range(NumofMessages):
-            for msg in self.mail_box.retr(i+1)[1]:
-                print(msg)
-                print()
-        # print(mail_box.retr(255)[1])
-        print(self.mail_box.stat())
-        self.mail_box.quit()
 
+    def count(self):
+        """
+        Fetch POP mail (count), it result is tuple of 2 ints (message count, mailbox size).
+        """
+        
+        self.conn()
+        return self.mail_box.stat()
+    
+    def fetch(self, n: int = None):
+        """
+        Fetch POP mail (fetch)
+        `n` is a message number, when a message number argument is given is a single response: the "scan listing" for that message.
+        """
+        
+        if type(n) == int or n == None:
+            pass
+        else:
+            return False
+        
+        self.conn()
+        NumofMessages = len(self.mail_box.list()[1])
+        _list_1 = []
+
+        if n == None:
+            for i in range(NumofMessages):
+                _list_2 = []
+                for msg in self.mail_box.retr(i+1)[1]:
+                    _list_2.append(msg)
+                _list_1.append(_list_2)
+        else:
+            for msg in self.mail_box.retr(n+1)[1]:
+                _list_1.append(msg)
+
+        if len(_list_1) == 0:
+            log_style('unable to get mail', col='yellow')
+        else:
+            log_style('it\'s ok')
+            ok('[+] Well')
+        self.mail_box.quit()
+        return _list_1
+    
 
 class FetchIMAP:
     """
@@ -446,38 +385,19 @@ class FetchIMAP:
     IMAP enables the users to search the e-mails.
 
     It allows concurrent access to multiple mailboxes on multiple mail servers.
-
-    1	IMAP_LOGIN
-    This command opens the connection.
-    2	CAPABILITY
-    This command requests for listing the capabilities that the server supports.
-    3	NOOP
-    This command is used as a periodic poll for new messages or message status updates during a period of inactivity.
-    4	SELECT
-    This command helps to select a mailbox to access the messages.
-    5	EXAMINE
-    It is same as SELECT command except no change to the mailbox is permitted.
-    6	CREATE
-    
-    7	DELETE
-    
-    8	RENAME
-    
-    9	LOGOUT
-    
     """
 
     def __init__(self, sender, passwd, svr):
         """Kyaah IMAP init"""
+
         self.sender = sender
         self.passwd = passwd
         self.svr = svr
         self.imapp = None
 
     def conn(self):
-        """
-        Making connection
-        """
+        """Making connection"""
+
         s_mail = Serve.mail(self.svr)
         # connect to host using SSL
         imap = imaplib.IMAP4_SSL(s_mail['server'][2], s_mail['port'][3])
@@ -489,19 +409,20 @@ class FetchIMAP:
         """
         Fetch IMAP mail folder
         
-        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
         :see: if true, it will loop over the folders and display them on terminal
 
         it return list of mail folders
         """
         
         self.conn()
-        s_status, b = self.imapp.select(folder)
+        # it helps to select a mailbox to access the messages
+        status, b = self.imapp.select(folder)
 
-        if s_status == 'OK':
-            ok('Processing mailbox')
+        if status == 'OK':
+            ok('Processing mailbox, status:')
         else:
-            print('ERROR: Unable to open mailbox ', s_status)
+            log_style(
+                f'ERROR: Unable to open mailbox, status: status folder: {folder}', col='yellow')
             sys.exit()
 
         if see:
@@ -518,76 +439,111 @@ class FetchIMAP:
             _list_2.append(b)
         return _list_2
     
-    def fetch(self, folder: str='Inbox'):
+    def fetch(self, folder: str='Inbox', query='ALL') -> list:
         """
-        Fetch IMAP mail
-        :svr: this is the type of the sender mail, for google => gmail, for yahoo => yahoo, etc
+        Fetch IMAP mail, it fetches mails in the order (from old to newers).
 
-        NOTE
+        NOTE: The `folder` kwargs is to specify which folder to query, by default it will query from Inbox.
             when pass folder name like:
                 [Gmail]/All Mail
             ensure to wrapp it with double qoute "" to avoid error, like:
                 folder='"[Gmail]/All Mail"'
+
+                others:
+                    folder='Inbox'
+                    folder="INBOX"
+                    folder="Trash"
+                    folder='"[Gmail]/All Mail"'
+                    folder='"[Gmail]/Drafts"'
+                    folder='"[Gmail]/Important"'
+                    folder='"[Gmail]/Sent Mail"'
+                    folder='"[Gmail]/Spam"'
+                    folder='"[Gmail]/Starred"'
+                    folder='"[Gmail]/Trash"'
+
+        NOTE: The `query` kwargs is to specify what to query, by default it will query all.
+            To get for specific mails by sender:
+                query='FROM "googlealerts-noreply@google.com"'
+
+            To get mails by subject:
+                query='SUBJECT "Thanks for Subscribing to our Newsletter !"'
+
+            To get mails after a specific date:
+                query='SINCE "01-JAN-2020"'
+
+            To get mails before a specific date:
+                query='BEFORE "01-JAN-2020"'
         """
-        
+
         self.conn()
-
-        # select the mailbox (maybe if I want to delete in, or search within)
-        s_status, b = self.imapp.select(folder)
-
-        # # search for specific mails by sender
-        # status, messages = imapp.search(None, 'FROM "googlealerts-noreply@google.com"')
-
-        # # to get mails by subject
-        # status, messages = imapp.search(None, 'SUBJECT "Thanks for Subscribing to our Newsletter !"')
-
-        # # to get mails after a specific date
-        # status, messages = imapp.search(None, 'SINCE "01-JAN-2020"')
-
-        # # to get mails before a specific date
-        # status, messages = imapp.search(None, 'BEFORE "01-JAN-2020"')
-
-        # to get all mails
-        status, messages = self.imapp.search(None, 'ALL')
-        
-        if status == 'OK':
-            ok('Searching mailbox')
+        # select mailbox
+        _status_, data = self.imapp.select(folder)
+        if _status_ == 'OK':
+            ok('Searching mailbox, status:')
         else:
-            print('ERROR: Unable to search mailbox ', status)
+            log_style(
+                f'ERROR: Unable to search mailbox, status: {_status_} folder: {folder}', col='yellow')
             sys.exit()
-            
-        print(f'There is {len(messages[0].split())} emails here')
+
+        # search query
+        status_, messages = self.imapp.search(None, query)
+        log_style(f'There is {len(messages[0].split())} emails found!')
+        _list_1 = []
+
         for num in messages[0].split():
-            _, msg = self.imapp.fetch(num, '(RFC822)')
-            print()
-            print('Message: {0}, {1}\n'.format(num, msg[0][0]))
-            # pprint.pprint(msg)
+            _list_2 = []
+            _status, msg = self.imapp.fetch(num, '(RFC822)')
             for d in msg[0][1].decode().split('\r\n'):
-                print(d)
-            print()
-            print()
-            print()
-            if num == b'5': break
+                _list_2.append(d)
+            _list_1.append(_list_2)
         self.imapp.close()
+        return _list_1
 
     def create(self, folder):
         """It is used to create mailbox with a specified name"""
+
         self.conn()
-        self.imapp.create(folder)
+        _status, data = self.imapp.create(folder)
+        if _status == 'OK':
+            ok('Creating mailbox, status:')
+        else:
+            log_style(
+                f'ERROR: Unable to create mailbox, status: {_status} folder: {folder}', col='yellow')
+            sys.exit()
         
     def rename(self, old_box, new_box):
         """It is used to change the name of a mailbox"""
+
         self.conn()
-        self.imapp.rename(old_box, new_box)
+        _status, data = self.imapp.rename(old_box, new_box)
+        if _status == 'OK':
+            ok('Renaming mailbox, status:')
+        else:
+            log_style(
+                f'ERROR: Unable to rename mailbox, status: {_status} folder: {old_box}', col='yellow')
+            sys.exit()
         
     def delete(self, folder):
         """It is used to permanently delete a mailbox with a given name"""
+
         self.conn()
-        self.imapp.delete(folder)
+        _status, data = self.imapp.delete(folder)
+        if _status == 'OK':
+            ok('Deleting mailbox, status:')
+        else:
+            log_style(
+                f'ERROR: Unable to delete mailbox, status: {_status} folder: {folder}', col='yellow')
+            sys.exit()
         
     def logout(self):
         """
         This command informs the server that client is done with the session. The server must send BYE untagged response before the OK response and then close the network connection
         """
+
         self.conn()
-        self.imapp.logout()
+        _status, data = self.imapp.logout()
+        if _status == 'BYE':
+            ok(f'Logging out mailbox, status: {_status}')
+        else:
+            log_style(f'ERROR: Unable to logout mailbox, status: {_status}', col='yellow')
+            sys.exit()

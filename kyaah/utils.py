@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-# =============
-# Kyaah @ utils
-# =============
-"""
-
 import json
 import math
 import random
@@ -16,19 +10,22 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdang
 
 
 class Faker:
-    """
-    Class that give you random email address
-    """
+    """Class that give you random email address"""
     
-    _source = ['https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=', '&agent=Mozilla_foo_bar']
+    _source = [
+        'https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=',
+        '&agent=Mozilla_foo_bar'
+    ]
     
     def __init__(self, url=_source, ip='me'):
         """Faker init"""
+
         self.url = url
         self.ip = ip
 
     def what_ip(self):
         """Find ip address of the requester"""
+
         g = geocoder.ip(self.ip).raw
         ip = g.get('ip')
         return ip
@@ -36,8 +33,9 @@ class Faker:
     @property
     def make_request(self):
         """
-        This method make a request along side with an ip address from `what_ip` method of this class
+        This method make a request along side with an ip address from `what_ip` method of this class.
         """
+
         url_first = self.url[0]
         url_mid = self.url[1]
         url_end = self.what_ip()
@@ -48,6 +46,7 @@ class Faker:
     
     def faker(self) -> dict:
         """Give the actual maill address generated from guerrillamail"""
+
         gue_raw = json.loads(self.make_request)
         _fake = gue_raw['email_addr']
         return {'fake_email': _fake}
@@ -97,12 +96,14 @@ class IzitDanger:
             population = self.token_generate
             k = random.randint(32, 64)
         """
+
         salt = ''.join(random.sample(self.token_generate, random.randint(32, 64)))
         return salt # return type is string
     
     @staticmethod
     def get_token(mysecret, secret_key, expires_min=1):
         """Get token"""
+
         s = Serializer(secret_key, expires_min * 60)
         # s = Serializer(secret_key) #(itsdangerous==2.1.2)
         # mysecret = IzitDanger()._salt
@@ -113,6 +114,7 @@ class IzitDanger:
     @staticmethod
     def verify_token(secret_key, token):
         """Verify token (sign)"""
+
         s = Serializer(secret_key)
         try:
             load_token = s.loads(token)
@@ -122,16 +124,20 @@ class IzitDanger:
     
     def __str__(self):
         """Dunder str"""
+
         return f'IzitDanger class'
     
 
 class Tokens:
-    """The base class for OTP mail"""
+    """
+    The base class for Tokens. It really work for python app, and secret key must be provided.
+    """
 
     def __init__(self): ...
     
     def mail_otp(self, _range=6):
-        """send otp code"""
+        """Send otp code"""
+
         digits = '0123456789'
         OTP = ''
         for _ in range(_range):
@@ -164,6 +170,7 @@ class Tokens:
 
         In real, it could be use if want to reset email address, by given amount of time, that the link will be expired!
         """
+
         secret = IzitDanger()._salt
         d = IzitDanger.get_token(mysecret, secret, age)
         return [secret, d]
@@ -179,6 +186,7 @@ class Tokens:
             >>> data = '***********'
             >>> a = kyaah.Tokens.unlink(secret, data)
         """
+
         # secret = IzitDanger()._salt
         d = IzitDanger.verify_token(secret_key, token)
         return d

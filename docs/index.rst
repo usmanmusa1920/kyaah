@@ -77,8 +77,8 @@ Table of content
     send_files
     send_page
     mail_utils
-    imap
-    pop3
+    pop3_and_imap
+    utils
 
 
 Useful links:

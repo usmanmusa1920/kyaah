@@ -1,13 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-    ================
-    @ kyaah software
-    ================
+    ================================
+    @ Kyaah software toolkit package
+    ================================
 
-      / / \/ /|   /|   /  /
-     /_/  / /_|  /_|  /__/
-    /  / / /  | /  | /  /
-
+          ,-.                                      ,---,     
+      ,--/ /|                                    ,--.' |     
+    ,--. :/ |                                    |  |  :     
+    :  : ' /                                     :  :  :     
+    |  '  /        .--,   ,--.--.      ,--.--.   :  |  |,--. 
+    '  |  :      /_ ./|  /       \    /       \  |  :  '   | 
+    |  |   \  , ' , ' : .--.  .-. |  .--.  .-. | |  |   /' : 
+    '  : |. \/___/ \: |  \__\/: . .   \__\/: . . '  :  | | | 
+    |  | ' \ \.  \  ' |  ," .--.; |   ," .--.; | |  |  ' | : 
+    '  : |--'  \  ;   : /  /  ,.  |  /  /  ,.  | |  :  :_:,' 
+    ;  |,'      \  \  ;;  :   .'   \;  :   .'   \|  | ,'     
+    '--'         :  \  \  ,     .-./|  ,     .-./`--''       
+                  \  ' ;`--`---'     `--`---'                
+                   `--`                                      
+    
     Kyaah abstract away cognitive over-head of sending SMTP mail, together with other mailing operations things like, mail with file, tokens etc.
 
     Usage at a glance:
@@ -22,6 +33,8 @@
         >>> body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
         
         >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+
+    Kyaah uses SSL for email, because most of the servers like gmail, require SSL.
 """
 
 from datetime import datetime
@@ -52,9 +65,8 @@ status_codes = {
 
 
 def selector(env=None):
-    """
-    Decide a class for `environment variable` for security purpose or not
-    """
+    """Decide a class for `environment variable` for security purpose or not."""
+
     if env:
         cls = Vault
     else:

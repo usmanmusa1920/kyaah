@@ -6,7 +6,8 @@ from setuptools import find_packages
 
 
 def grep(attrname):
-    """get package info from __init__.py file"""
+    """Get package info from __init__.py file"""
+
     file_path = os.path.join(os.path.dirname(__file__), 'kyaah/__init__.py')
 
     # content of the file
@@ -64,10 +65,11 @@ setup(
     
     # List of other python modules which this module depends on.  For example RPi.GPIO
     install_requires = [
-        'pstyle>=0.0.1',
+        'rgbpy>=0.0.1',
         'geocoder>=1.38.1',
         'itsdangerous==0.24',
     ],
+    
     project_urls={
         'Documentation': grep('__url__'),
         'Source': grep('__repository__'),

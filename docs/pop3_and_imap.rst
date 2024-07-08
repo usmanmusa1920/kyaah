@@ -74,6 +74,7 @@ Simple usage of kyaah with POP3. The `fetch` method it return a list of the avai
 In other to get message count and mailbox size, the below should be use. The `count` method result is tuple of 2 ints (message count, mailbox size).
 
 .. code-block:: python
+    
     r = f.count()
     print(r)
 

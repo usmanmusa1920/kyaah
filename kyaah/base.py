@@ -33,36 +33,35 @@ OS_SEP = os.path.sep
 
 
 class BaseMail:
-    """
-    Base class for mail
+    """Base class for mail
     
     In all `BaseMail` mathod there is a keyword argument called `port`, that port is the port of your SMTP server which will listen, make sure to put the port that is convenient to your SMTP server e.g for gmail is 465 (SSL), although kyaah has a dictionary of server, where each server has a list of ports, SMTP server, etc.
     """
 
     def __init__(
         self,
-        from_usr=None,
-        to_usr=None,
+        sender=None,
+        receiver=None,
         subject=None,
         body=None,
-        mail_passwd=None,
-        server=None,
+        password=None,
+        #server=None,
+        **kwgs
     ):
-        """
-        For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test.
+        """For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test.
         """
 
-        self.from_usr = from_usr
-        self.to_usr = to_usr
+        self.from_usr = sender
+        self.to_usr = receiver
         self.subject = subject
         self.body = body
-        self.mail_passwd = mail_passwd
-        self.server = server
+        self.mail_passwd = password
+        self.server = kwgs["server"]
 
         while self.from_usr == None:
-            raise UnboundLocalError(f'`from_usr` is required')
+            raise UnboundLocalError(f'`sender` is required')
         while self.to_usr == None:
-            raise UnboundLocalError(f'`to_usr` is required')
+            raise UnboundLocalError(f'`receiver` is required')
 
     @property
     def from_usr_addr(self):
@@ -89,11 +88,11 @@ class BaseMail:
         """Checking for required values"""
 
         while self.mail_passwd == None:
-            raise UnboundLocalError(f'`mail_passwd` is required')
+            raise UnboundLocalError(f'`password` is required')
         while self.server == None:
             raise UnboundLocalError(f'`server` is required')
 
-    def mail_head(self, msg):
+    def mail_head(self, msg, body=None):
         """Contains the sender, receiver and subject"""
 
         # grab the subject from `mail_msg` method by spliting it,
@@ -115,6 +114,9 @@ class BaseMail:
         # The Date field indicates the date when the e-mail was sent.
 
         msg['Message-ID'] = email.utils.make_msgid()
+
+        if body:
+            msg.set_content(body)
         
         # CC (Carbon copy). It includes those recipient addresses whom we want to keep informed but not exactly the intended recipient.
         
@@ -131,8 +133,7 @@ class BaseMail:
         # sys.stdout.buffer.write(msg.as_bytes())
 
     def mail_open(self, msg, port):
-        """
-        This open the connection, and login to email address using email address provided together with password/app_password
+        """This open the connection, and login to email address using email address provided together with password/app_password
         """
 
         with smtplib.SMTP_SSL(self.server, port) as smtp:
@@ -163,9 +164,7 @@ class BaseMail:
                 smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
 
     def file_to_send(self, file_to, f_opration, _msg=None, maintype=None):
-        """
-        Kyaah file to send utility method, used for `mail_with_image` and `mail_with_file`
-        """
+        """Kyaah file to send utility method, used for `mail_with_image` and `mail_with_file`"""
 
         # maintype = 'image' for sending image
         # maintype = 'application' for sending files like pdf
@@ -253,8 +252,7 @@ class BaseMail:
         self.mail_open(msg, port)
 
     def mail_with_page(self, file=None, port=25):
-        """
-        Send mail with html page. You can pass a keyword args of `file='default'` which will send a default html page provided within this class method, that is for test.
+        """Send mail with html page. You can pass a keyword args of `file='default'` which will send a default html page provided within this class method, that is for test.
 
         But if you want to send yor own html page assign the `file` with a value of the absolute location of your html page
         """
@@ -292,6 +290,15 @@ class BaseMail:
             msg.add_attachment(html_f, subtype='html', filename=f_name)
         self.mail_open(msg, port)
 
+    def push_mail():
+        """Send mail with all files or not"""
+
+        def mmm(self):
+            subj = self.subject
+            body = self.body
+            data = f'Subject: {subj}\n\n{body}'
+            return data
+
 
 def ok(msg):
     """It is ok"""
@@ -307,16 +314,19 @@ def ok(msg):
 
 
 class FetchPOP:
-    """
-    Fetch POP mail, it downloads the emails in the `inbox folder` on the email server to your device. This means that POP3 doesn't retrieve emails located in other folders such as `Sent, Draft, custom folders` and so on.
+    """Fetch POP mail, it downloads the emails in the `inbox folder` on the email server to your device. This means that POP3 doesn't retrieve emails located in other folders such as `Sent, Draft, custom folders` and so on.
     """
 
-    def __init__(self, sender, passwd, svr):
+    def __init__(self, sender, password):
         """Kyaah POP init"""
 
         self.sender = sender
-        self.passwd = passwd
+        self.passwd = password
+
+        _t_ = sender.split('@')[-1]
+        svr = _t_.split('.')[0]
         self.svr = svr
+
         self.mail_box = None
 
     def conn(self):
@@ -335,16 +345,13 @@ class FetchPOP:
         self.mail_box = mail_box
 
     def count(self):
-        """
-        Fetch POP mail (count), it result is tuple of 2 ints (message count, mailbox size).
-        """
+        """Fetch POP mail (count), it result is tuple of 2 ints (message count, mailbox size)."""
         
         self.conn()
         return self.mail_box.stat()
     
     def fetch(self, n: int = None):
-        """
-        Fetch POP mail (fetch)
+        """Fetch POP mail (fetch)
         `n` is a message number, when a message number argument is given is a single response: the "scan listing" for that message.
         """
         
@@ -377,8 +384,7 @@ class FetchPOP:
     
 
 class FetchIMAP:
-    """
-    Fetch IMAP mail
+    """Fetch IMAP mail
 
     It enables us to take any action such as downloading, delete the mail without reading the mail.It enables us to create, manipulate and delete remote message folders called mail boxes.
 
@@ -387,12 +393,16 @@ class FetchIMAP:
     It allows concurrent access to multiple mailboxes on multiple mail servers.
     """
 
-    def __init__(self, sender, passwd, svr):
+    def __init__(self, sender, password):
         """Kyaah IMAP init"""
 
         self.sender = sender
-        self.passwd = passwd
+        self.passwd = password
+
+        _t_ = sender.split('@')[-1]
+        svr = _t_.split('.')[0]
         self.svr = svr
+
         self.imapp = None
 
     def conn(self):
@@ -406,8 +416,7 @@ class FetchIMAP:
         self.imapp = imap
 
     def folder(self, folder: str='Inbox', see: bool = False) -> list:
-        """
-        Fetch IMAP mail folder
+        """Fetch IMAP mail folder
         
         :see: if true, it will loop over the folders and display them on terminal
 
@@ -440,8 +449,7 @@ class FetchIMAP:
         return _list_2
     
     def fetch(self, folder: str='Inbox', query='ALL') -> list:
-        """
-        Fetch IMAP mail, it fetches mails in the order (from old to newers).
+        """Fetch IMAP mail, it fetches mails in the order (from old to newers).
 
         NOTE: The `folder` kwargs is to specify which folder to query, by default it will query from Inbox.
             when pass folder name like:
@@ -536,8 +544,7 @@ class FetchIMAP:
             sys.exit()
         
     def logout(self):
-        """
-        This command informs the server that client is done with the session. The server must send BYE untagged response before the OK response and then close the network connection
+        """This command informs the server that client is done with the session. The server must send BYE untagged response before the OK response and then close the network connection
         """
 
         self.conn()

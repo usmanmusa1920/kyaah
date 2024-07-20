@@ -9,52 +9,8 @@ import requests
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdangerous==0.24)
 
 
-class Faker:
-    """Class that give you random email address"""
-    
-    _source = [
-        'https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=',
-        '&agent=Mozilla_foo_bar'
-    ]
-    
-    def __init__(self, url=_source, ip='me'):
-        """Faker init"""
-
-        self.url = url
-        self.ip = ip
-
-    def what_ip(self):
-        """Find ip address of the requester"""
-
-        g = geocoder.ip(self.ip).raw
-        ip = g.get('ip')
-        return ip
-    
-    @property
-    def make_request(self):
-        """
-        This method make a request along side with an ip address from `what_ip` method of this class.
-        """
-
-        url_first = self.url[0]
-        url_mid = self.url[1]
-        url_end = self.what_ip()
-        
-        com_url = url_first + url_end + url_mid
-        r = requests.get(com_url).text
-        return r
-    
-    def faker(self) -> dict:
-        """Give the actual maill address generated from guerrillamail"""
-
-        gue_raw = json.loads(self.make_request)
-        _fake = gue_raw['email_addr']
-        return {'fake_email': _fake}
-    
-
 class IzitDanger:
-    """
-    IzitDanger class for generating salting 🤔
+    """IzitDanger class for generating salting 🤔
     
     A reqular expression that matches any character that
     should never appear in base 64 encodings would be:
@@ -89,8 +45,7 @@ class IzitDanger:
         
     @property
     def _salt(self):
-        """
-        Salting with this class method
+        """Salting with this class method
 
         By using the random sample method, where we make:
             population = self.token_generate
@@ -129,9 +84,7 @@ class IzitDanger:
     
 
 class Tokens:
-    """
-    The base class for Tokens. It really work for python app, and secret key must be provided.
-    """
+    """The base class for Tokens. It really work for python app, and secret key must be provided."""
 
     def __init__(self): ...
     
@@ -146,24 +99,27 @@ class Tokens:
     
     @staticmethod
     def link(mysecret, age=1):
-        """
-        Method that ease making link session age
+        """Method that ease making link session age
 
         Usage:
             >>> import kyaah
-            >>> l = 'https://kyaah.readthedocs.io'
-            >>> a = kyaah.Tokens.link(l)
-            >>> secret = a[0] # random text/numbers
-            >>> data = a[1] # encode and salted
+            >>> url = 'https://kyaah.readthedocs.io'
+            >>> tokenised_link = kyaah.Tokens.link(url)
+        
+            >>> creds = dict(
+            >>>     sender = "myemail@gmail.com",
+            >>>     receiver = ["receiver1@gmail.com", "receiver2@gmail.com"],
+            >>>     subject = "Kyaah link age utility",
+            >>>     body = "Hi! you can follow this link {l} and update your password, it will expire in 60 seconds. Thank you!",
+            >>>     password = "*********",
+            >>> )
 
-            >>> sender = 'myemail@gmail.com'
-            >>> receiver = ['useremail_1@gmail.com', 'useremail_2@gmail.com']
-            >>> mail_serve ='gmail'
-            >>> subj = 'Kyaah link age utility'
-            >>> msg = f'Hi! you can follow this link {l} and update your password, it will expire in 60 seconds. Thank you!'
-            >>> passwd = '***********'
-
-            >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=mail_serve, subject=subj, body=msg, mail_passwd=passwd)
+            >>> print(tokenised_link)
+            >>> secret = tokenised_link[0]
+            >>> data = tokenised_link[1]
+            
+            >>> mail = kyaah.send(credentials=creds)
+            >>> print(kyaah.Tokens.unlink(secret, data))
             
         Make sure to save the `secret` some where safe (database, private repository, etc).
         And the `data` is the encode data with a session age (default is 1-minute).
@@ -177,21 +133,61 @@ class Tokens:
     
     @staticmethod
     def unlink(secret_key, token):
-        """
-        Method that ease unlinking session age
+        """Method that ease unlinking session age
 
         Usage:
             >>> import kyaah
             >>> secret = '***********'
             >>> data = '***********'
-            >>> a = kyaah.Tokens.unlink(secret, data)
+            >>> tokenised_unlink = kyaah.Tokens.unlink(secret, data)
         """
 
         # secret = IzitDanger()._salt
         d = IzitDanger.verify_token(secret_key, token)
         return d
+    
 
+class Faker:
+    """Class that give you random email address"""
+    
+    _source = [
+        'https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=',
+        '&agent=Mozilla_foo_bar'
+    ]
+    
+    def __init__(self, url=_source, ip='me'):
+        """Faker init"""
 
+        self.url = url
+        self.ip = ip
+
+    def what_ip(self):
+        """Find ip address of the requester"""
+
+        g = geocoder.ip(self.ip).raw
+        ip = g.get('ip')
+        return ip
+    
+    @property
+    def make_request(self):
+        """This method make a request along side with an ip address from `what_ip` method of this class."""
+
+        url_first = self.url[0]
+        url_mid = self.url[1]
+        url_end = self.what_ip()
+        
+        com_url = url_first + url_end + url_mid
+        r = requests.get(com_url).text
+        return r
+    
+    def faker(self) -> dict:
+        """Give the actual maill address generated from guerrillamail"""
+
+        gue_raw = json.loads(self.make_request)
+        _fake = gue_raw['email_addr']
+        return {'fake_email': _fake}
+    
+    
 class Box: ...
 
 # from itsdangerous import TimestampSigner as ts

@@ -22,18 +22,16 @@ Wait for the installation to finish, basically the library was uploaded using `s
 
 ```python
     import kyaah
-                
-    sender = 'my_email@gmail.com'
-    receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
-    passwd = '*********' # use app password
-
-    server = 'gmail'
-    subj = f'Hellow world!'
-    body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
-
-    kyaah.sendMail(
-        from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd
+        
+    creds = dict(
+        sender = "myemail@gmail.com",
+        receiver = ["receiver1@gmail.com", "receiver2@gmail.com"],
+        subject = "Hellow world!",
+        body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
+        password = "*********",
     )
+
+    kyaah.send(credentials=creds)
 ```
 
 save the file and navigate to where the file is located in terminal and your are ready to go (run the file)

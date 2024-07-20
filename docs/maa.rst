@@ -1,7 +1,7 @@
 :tocdepth: 2
 
-POP3 and IMAP
-#############
+Message accessing agent (POP3 and IMAP)
+#######################################
 
 POP3 `Post Office Protocol 3` and IMAP `Internet Message Access Protocol` both are MAA `Message accessing agent`, both of these protocols are used to retrieve messages from the mail server to the receivers system. Both of these protocols are accounted for spam and virus filters. IMAP is more flexible and complex than POP3.
 
@@ -59,15 +59,11 @@ Simple usage of kyaah with POP3. The `fetch` method it return a list of the avai
 
 .. code-block:: python
 
-    from kyaah import fetch_pop
+    from kyaah import fetch
 
-    subj = f'Kyaah subject of testing'
-    body = 'This new python library `kyaah` it is an email utility program, for SMTP, POP3, and IMAP.'
-    mail_serve ='gmail'
-    sender = 'myemail@gmail.com'
-    passwd = '****************' # app password
+    creds = dict(sender="myemail@gmail.com", password="**********")
 
-    f = fetch_pop(sender, passwd, mail_serve)
+    f = fetch(credentials=creds)
     r = f.fetch()
     print(r)
 
@@ -86,15 +82,11 @@ Simple usage of kyaah with IMAP. The `folder` method it return list of mail fold
 
 .. code-block:: python
 
-    from kyaah import fetch_pop
+    from kyaah import fetch
 
-    subj = f'Kyaah subject of testing'
-    body = 'This new python library `kyaah` it is an email utility program, for SMTP, POP3, and IMAP.'
-    mail_serve ='gmail'
-    sender = 'myemail@gmail.com'
-    passwd = '****************' # app password
+    creds = dict(sender="myemail@gmail.com", password="**********")
 
-    f = fetch_pop(sender, passwd, mail_serve)
+    f = fetch(maa="imap", credentials=creds)
     r = f.folder()
     print(r)
 

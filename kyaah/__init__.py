@@ -23,24 +23,24 @@
 
     Usage at a glance:
         >>> import kyaah
-
-        >>> sender = 'youremail@gmail.com'
-        >>> receiver = ['receiver_1@gmail.com', 'receiver_2@gmail.com']
-        >>> passwd = '*********' # use app password
-
-        >>> server = 'gmail'
-        >>> subj = f'Hellow world!'
-        >>> body = 'Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.'
         
-        >>> kyaah.sendMail(from_usr=sender, to_usr=receiver, svr=server, subject=subj, body=body, mail_passwd=passwd)
+        >>> creds = dict(
+        >>>     sender = "myemail@gmail.com",
+        >>>     receiver = ["receiver1@gmail.com", "receiver2@gmail.com"],
+        >>>     subject = "Hellow world!",
+        >>>     body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
+        >>>     password = "**********",
+        >>> )
 
+        >>> kyaah.send(credentials=creds)
+        
     Kyaah uses SSL for email, because most of the servers like gmail, require SSL.
 """
 
 from datetime import datetime
 
 __title__ = 'kyaah'
-__version__ = '0.1.13'
+__version__ = '0.1.14'
 __author__ = 'Usman Musa'
 __author_email__ = 'usmanmusa1920@gmail.com'
 __author_website__ = 'https://usmanmusa1920.github.io'
@@ -79,12 +79,7 @@ from .vault import Vault
 from .utils import Tokens
 from .utils import Faker
 from .server import Serve
-from .api import localMail
-from .api import sendMail
-from .api import sendImages
-from .api import sendFiles
-from .api import sendPage
+from .api import send
+from .api import fetch
 from .api import fk
 from .api import otp
-from .api import fetch_mail_IMAP as fetch_imap
-from .api import fetch_mail_POP as fetch_pop

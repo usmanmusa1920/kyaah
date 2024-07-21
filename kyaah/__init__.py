@@ -40,7 +40,7 @@
 from datetime import datetime
 
 __title__ = 'kyaah'
-__version__ = '0.1.14'
+__version__ = '0.1.15'
 __author__ = 'Usman Musa'
 __author_email__ = 'usmanmusa1920@gmail.com'
 __author_website__ = 'https://usmanmusa1920.github.io'

@@ -22,6 +22,7 @@ from .server import Serve
 # ERROR     ---  40
 # CRITICAL  ---  50
 
+
 FORMATTER = '[+] [%(asctime)s] [%(levelname)s] %(message)s'
 logging.basicConfig(format=FORMATTER)
 # Creating an object
@@ -41,39 +42,38 @@ class BaseMail:
     def __init__(
         self,
         sender=None,
-        receiver=None,
+        receiver: list = None,
         subject=None,
         body=None,
         password=None,
-        #server=None,
         **kwgs
     ):
         """For iCloud, the username is typically the first part of your email address, for example, my_email, rather than my_email@icloud.com. If your email client cannot connect to iCloud while using only the name portion of your address, try using the full address as a test.
         """
 
-        self.from_usr = sender
-        self.to_usr = receiver
+        self.from_sender = sender
+        self.to_receiver = receiver
         self.subject = subject
         self.body = body
-        self.mail_passwd = password
+        self.password = password
         self.server = kwgs["server"]
 
-        while self.from_usr == None:
+        while self.from_sender == None:
             raise UnboundLocalError(f'`sender` is required')
-        while self.to_usr == None:
+        while self.to_receiver == None:
             raise UnboundLocalError(f'`receiver` is required')
 
     @property
-    def from_usr_addr(self):
+    def from_sender_addr(self):
         """The sender mail address"""
 
-        return self.from_usr
+        return self.from_sender
 
     @property
-    def mail_passwd_env(self):
+    def password_env(self):
         """The sender mail password"""
 
-        return self.mail_passwd
+        return self.password
 
     @property
     def mail_msg(self):
@@ -87,7 +87,7 @@ class BaseMail:
     def check_required(self):
         """Checking for required values"""
 
-        while self.mail_passwd == None:
+        while self.password == None:
             raise UnboundLocalError(f'`password` is required')
         while self.server == None:
             raise UnboundLocalError(f'`server` is required')
@@ -101,10 +101,10 @@ class BaseMail:
         # `subj` variable of mail_msg method of this class
         # which is `Subject: `
 
-        msg['From'] = self.from_usr_addr
+        msg['From'] = self.from_sender_addr
         # The From field indicates the sender’s address i.e. who sent the e-mail.
 
-        msg['To'] = self.to_usr
+        msg['To'] = self.to_receiver
         # The To field indicates the recipient’s address i.e. to whom the e-mail is sent.
 
         msg['Subject'] = self.mail_msg.split('\n')[0][9:]
@@ -137,31 +137,25 @@ class BaseMail:
         """
 
         with smtplib.SMTP_SSL(self.server, port) as smtp:
-            smtp.login(self.from_usr_addr, self.mail_passwd_env)
+            smtp.login(self.from_sender_addr, self.password_env)
             smtp.send_message(msg)
 
     def local_mail(self, port=1025):
         """Localhost mail"""
 
         with smtplib.SMTP(self.server, port) as smtp:
-            smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
+            smtp.sendmail(self.from_sender_addr, self.to_receiver, self.mail_msg)
 
     def send_mail(self, port=25):
         """Send mail with ssl security"""
 
-        # recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_usr` that you pass in as the argument when instanciating the `BaseMail` class
+        # recepients is the list of receivers email address that you will send emaill address to, if the recepients is not included when call the method it will only send it to the `self.to_receiver` that you pass in as the argument when instanciating the `BaseMail` class
         self.check_required()
-
-        if len(self.to_usr) > 1:
-            # if there is recepients
-            for receiver in self.to_usr:
-                with smtplib.SMTP_SSL(self.server, port) as smtp:
-                    smtp.login(self.from_usr_addr, self.mail_passwd_env)
-                    smtp.sendmail(self.from_usr_addr, receiver, self.mail_msg)
-        elif len(self.to_usr) == 1:
+        
+        for receiver in self.to_receiver:
             with smtplib.SMTP_SSL(self.server, port) as smtp:
-                smtp.login(self.from_usr_addr, self.mail_passwd_env)
-                smtp.sendmail(self.from_usr_addr, self.to_usr, self.mail_msg)
+                smtp.login(self.from_sender_addr, self.password_env)
+                smtp.sendmail(self.from_sender_addr, receiver, self.mail_msg)
 
     def file_to_send(self, file_to, f_opration, _msg=None, maintype=None):
         """Kyaah file to send utility method, used for `mail_with_image` and `mail_with_file`"""
@@ -191,16 +185,16 @@ class BaseMail:
             _msg.add_attachment(
                 img_read, maintype=maintype, subtype=f_type, filename=f_name)
 
-    def mail_with_image(self, image, port=25):
+    def mail_with_image(self, image: list, port=25):
         """Send mail together with an image"""
 
         self.check_required()
 
-        if len(self.to_usr) > 1:
-            # if the list of to_usr is more than one
-            for receiver in self.to_usr:
+        if len(self.to_receiver) > 1:
+            # if the list of to_receiver is more than one
+            for receiver in self.to_receiver:
                 msg = EmailMessage()
-                msg['From'] = self.from_usr_addr
+                msg['From'] = self.from_sender_addr
                 msg['To'] = receiver
                 msg['Subject'] = self.mail_msg.split('\n')[0][9:]
                 msg['Date'] = email.utils.formatdate(localtime=True)
@@ -213,14 +207,9 @@ class BaseMail:
                         self.file_to_send(
                             my_img, 'rb', _msg=msg, maintype='image')
                     self.mail_open(msg, port)
-                elif type(image) == str:
-                    # send message with one image
-                    self.file_to_send(image, 'rb', _msg=msg, maintype='image')
-                    self.mail_open(msg, port)
                 else:
-                    LOGGER.error(
-                        f'only list or string can be pass as argument in {self.mail_with_image}')
-        elif len(self.to_usr) == 1:
+                    LOGGER.error(f'only list can be pass as argument in {self.mail_with_image}')
+        elif len(self.to_receiver) == 1:
             msg = EmailMessage()
             self.mail_head(msg)
             msg.set_content(self.mail_msg.split('\n')[2])
@@ -230,15 +219,10 @@ class BaseMail:
                 for my_img in image:
                     self.file_to_send(my_img, 'rb', _msg=msg, maintype='image')
                 self.mail_open(msg, port)
-            elif type(image) == str:
-                # send message with one image, for only one destination
-                self.file_to_send(image, 'rb', _msg=msg, maintype='image')
-                self.mail_open(msg, port)
             else:
-                LOGGER.error(
-                    f'only list or string can be pass as argument in {self.mail_with_image}')
+                LOGGER.error(f'only list can be pass as argument in {self.mail_with_image}')
 
-    def mail_with_file(self, mail_files, port=25):
+    def mail_with_file(self, mail_files: list, port=25):
         """Send mail together with a list of mail_files"""
 
         self.check_required()
@@ -251,7 +235,7 @@ class BaseMail:
             self.file_to_send(a_file, 'rb', _msg=msg, maintype='application')
         self.mail_open(msg, port)
 
-    def mail_with_page(self, file=None, port=25):
+    def mail_with_page(self, file: "String | list", port=25):
         """Send mail with html page. You can pass a keyword args of `file='default'` which will send a default html page provided within this class method, that is for test.
 
         But if you want to send yor own html page assign the `file` with a value of the absolute location of your html page
@@ -263,7 +247,10 @@ class BaseMail:
         self.mail_head(msg)
         msg.set_content(self.mail_msg.split('\n')[2])
 
-        if file == 'default':
+        if file != "test" and type(file) != list:
+            raise UnboundLocalError(f'`file` must be either `test` for testing, or list of page(s)')
+
+        if file.lower().strip() == "test":
             dummy_page = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -273,33 +260,20 @@ class BaseMail:
   <title>Document</title>
 </head>
 <body>
-  <h1 style="color:SlateGray;">Hello world mail from {self.from_usr_addr}</h1>
+  <h1 style="color:SlateGray;">Hello world mail from {self.from_sender_addr}</h1>
   <p style="color:brown;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum voluptate ipsum voluptatum doloribus, incidunt totam doloremque quae quibusdam exercitationem sapiente vel veritatis consequuntur earum et. Quod nobis minus minima repellat.</p>
 </body>
 </html>
 '''
             msg.add_alternative(dummy_page, subtype='html')
-        elif file != None:
-            with open(file) as f_html:
-                html_f = f_html.read()
-                n = f_html.name
-                if OS_SEP in n:
-                    f_name = n.split(OS_SEP)[-1]
-                else:
-                    f_name = f_html.name
-            msg.add_attachment(html_f, subtype='html', filename=f_name)
+        else:
+            for f_l in file:
+                with open(f_l) as f_html:
+                    html_f = f_html.read()
+                msg.add_attachment(html_f, subtype='html')
         self.mail_open(msg, port)
-
-    def push_mail():
-        """Send mail with all files or not"""
-
-        def mmm(self):
-            subj = self.subject
-            body = self.body
-            data = f'Subject: {subj}\n\n{body}'
-            return data
-
-
+        
+        
 def ok(msg):
     """It is ok"""
     

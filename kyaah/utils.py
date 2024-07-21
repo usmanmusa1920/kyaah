@@ -9,8 +9,8 @@ import requests
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer #(itsdangerous==0.24)
 
 
-class IzitDanger:
-    """IzitDanger class for generating salting 🤔
+class IzItDanger:
+    """IzItDanger class for generating salting 🤔
     
     A reqular expression that matches any character that
     should never appear in base 64 encodings would be:
@@ -19,15 +19,15 @@ class IzitDanger:
     we follow the base64 pattern of [^A-Za-z0-9+/=] that should never appear in base64, (in regex)
 
     NOTE: usage:
-        >>> pass_cls = IzitDanger()
+        >>> pass_cls = IzItDanger()
         >>> pass_salt = pass_cls._salt
         >>> print(pass_salt)
     """
 
-    token_sm_alpha = 'abcdefghijklmnopqrstuvwxyz'
+    token_sm_alpha = "abcdefghijklmnopqrstuvwxyz"
     token_cap_alpha = token_sm_alpha.upper()
-    token_num = '0123456789'
-    # token_char = '/+='
+    token_num = "0123456789"
+    # token_char = "/+="
     token_sum = token_sm_alpha + token_cap_alpha + token_num
 
     # We times the above variable (token_sum) by 2 (total length is 124),
@@ -38,10 +38,10 @@ class IzitDanger:
     token_times = token_sum * 2
     token_list = list(token_times)
     random.shuffle(token_list) # shuffling the above list
-    token_generate = ''.join(token_list)
+    token_generate = "".join(token_list)
     
     def __init__(self, token_generate = token_generate):
-        self.token_generate = ''.join(token_generate)
+        self.token_generate = "".join(token_generate)
         
     @property
     def _salt(self):
@@ -52,7 +52,7 @@ class IzitDanger:
             k = random.randint(32, 64)
         """
 
-        salt = ''.join(random.sample(self.token_generate, random.randint(32, 64)))
+        salt = "".join(random.sample(self.token_generate, random.randint(32, 64)))
         return salt # return type is string
     
     @staticmethod
@@ -61,9 +61,9 @@ class IzitDanger:
 
         s = Serializer(secret_key, expires_min * 60)
         # s = Serializer(secret_key) #(itsdangerous==2.1.2)
-        # mysecret = IzitDanger()._salt
+        # mysecret = IzItDanger()._salt
         # return s.dumps([1,2,3,4])
-        # return s.dumps('mysecret')
+        # return s.dumps("mysecret")
         return s.dumps(mysecret)
     
     @staticmethod
@@ -80,7 +80,7 @@ class IzitDanger:
     def __str__(self):
         """Dunder str"""
 
-        return f'IzitDanger class'
+        return f"IzItDanger class"
     
 
 class Tokens:
@@ -91,8 +91,8 @@ class Tokens:
     def mail_otp(self, _range=6):
         """Send otp code"""
 
-        digits = '0123456789'
-        OTP = ''
+        digits = "0123456789"
+        OTP = ""
         for _ in range(_range):
             OTP += digits[math.floor(random.random()*10)]
         return OTP
@@ -103,12 +103,12 @@ class Tokens:
 
         Usage:
             >>> import kyaah
-            >>> url = 'https://kyaah.readthedocs.io'
+            >>> url = "https://kyaah.readthedocs.io"
             >>> tokenised_link = kyaah.Tokens.link(url)
         
-            >>> creds = dict(
+            >>> payload = dict(
             >>>     sender = "myemail@gmail.com",
-            >>>     receiver = ["receiver1@gmail.com", "receiver2@gmail.com"],
+            >>>     receiver = ["receiver@gmail.com"],
             >>>     subject = "Kyaah link age utility",
             >>>     body = "Hi! you can follow this link {l} and update your password, it will expire in 60 seconds. Thank you!",
             >>>     password = "*********",
@@ -118,7 +118,7 @@ class Tokens:
             >>> secret = tokenised_link[0]
             >>> data = tokenised_link[1]
             
-            >>> mail = kyaah.send(credentials=creds)
+            >>> mail = kyaah.send(credentials=payload)
             >>> print(kyaah.Tokens.unlink(secret, data))
             
         Make sure to save the `secret` some where safe (database, private repository, etc).
@@ -127,8 +127,8 @@ class Tokens:
         In real, it could be use if want to reset email address, by given amount of time, that the link will be expired!
         """
 
-        secret = IzitDanger()._salt
-        d = IzitDanger.get_token(mysecret, secret, age)
+        secret = IzItDanger()._salt
+        d = IzItDanger.get_token(mysecret, secret, age)
         return [secret, d]
     
     @staticmethod
@@ -137,13 +137,13 @@ class Tokens:
 
         Usage:
             >>> import kyaah
-            >>> secret = '***********'
-            >>> data = '***********'
+            >>> secret = "***********"
+            >>> data = "***********"
             >>> tokenised_unlink = kyaah.Tokens.unlink(secret, data)
         """
 
-        # secret = IzitDanger()._salt
-        d = IzitDanger.verify_token(secret_key, token)
+        # secret = IzItDanger()._salt
+        d = IzItDanger.verify_token(secret_key, token)
         return d
     
 
@@ -151,11 +151,11 @@ class Faker:
     """Class that give you random email address"""
     
     _source = [
-        'https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=',
-        '&agent=Mozilla_foo_bar'
+        "https://www.guerrillamail.com/ajax.php?f=get_email_address&ip=",
+        "&agent=Mozilla_foo_bar"
     ]
     
-    def __init__(self, url=_source, ip='me'):
+    def __init__(self, url=_source, ip="me"):
         """Faker init"""
 
         self.url = url
@@ -165,7 +165,7 @@ class Faker:
         """Find ip address of the requester"""
 
         g = geocoder.ip(self.ip).raw
-        ip = g.get('ip')
+        ip = g.get("ip")
         return ip
     
     @property
@@ -184,13 +184,11 @@ class Faker:
         """Give the actual maill address generated from guerrillamail"""
 
         gue_raw = json.loads(self.make_request)
-        _fake = gue_raw['email_addr']
-        return {'fake_email': _fake}
+        _fake = gue_raw["email_addr"]
+        return {"fake_email": _fake}
     
     
-class Box: ...
-
 # from itsdangerous import TimestampSigner as ts
-# s = ts('secretkey')
-# string = s.sign('foo')
+# s = ts("secretkey")
+# string = s.sign("foo")
 # s.unsign(string, max_age=5)

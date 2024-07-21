@@ -24,15 +24,15 @@
     Usage at a glance:
         >>> import kyaah
         
-        >>> creds = dict(
+        >>> payload = dict(
         >>>     sender = "myemail@gmail.com",
-        >>>     receiver = ["receiver1@gmail.com", "receiver2@gmail.com"],
+        >>>     receiver = ["receiver@gmail.com"],
         >>>     subject = "Hellow world!",
         >>>     body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
         >>>     password = "**********",
         >>> )
 
-        >>> kyaah.send(credentials=creds)
+        >>> kyaah.send(credentials=payload)
         
     Kyaah uses SSL for email, because most of the servers like gmail, require SSL.
 """
@@ -53,14 +53,14 @@ __description__ = 'Kyaah abstract away cognitive over-head of sending SMTP mail,
 
 status_codes = {
     # Information.
-    200: ('success',),
+    200: ("success",),
     # Client Error.
-    400: ('bad_request',),
-    401: ('unauthorized',),
-    404: ('not_found',),
+    400: ("bad_request",),
+    401: ("unauthorized",),
+    404: ("not_found",),
     # Server Error.
-    500: ('internal_server_error',),
-    503: ('service_unavailable',),
+    500: ("internal_server_error",),
+    503: ("service_unavailable",),
 }
 
 

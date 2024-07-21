@@ -61,9 +61,9 @@ Simple usage of kyaah with POP3. The `fetch` method it return a list of the avai
 
     from kyaah import fetch
 
-    creds = dict(sender="myemail@gmail.com", password="**********")
+    payload = dict(sender="myemail@gmail.com", password="**********")
 
-    f = fetch(credentials=creds)
+    f = fetch(credentials=payload)
     r = f.fetch()
     print(r)
 
@@ -84,9 +84,9 @@ Simple usage of kyaah with IMAP. The `folder` method it return list of mail fold
 
     from kyaah import fetch
 
-    creds = dict(sender="myemail@gmail.com", password="**********")
+    payload = dict(sender="myemail@gmail.com", password="**********")
 
-    f = fetch(maa="imap", credentials=creds)
+    f = fetch(maa="imap", credentials=payload)
     r = f.folder()
     print(r)
 
@@ -148,3 +148,64 @@ To delete a folder with kyaah use the `delete` method.
 .. code-block:: python
     
     f.delete('myrecentnewfolder')
+    
+    
+Utils
+#####
+
+Kyaah provided utilities such as `OTP` code function, `link expiration`, `random email` (fake email generated from guerillamail) etc.
+
+Random email
+------------
+
+Use **Faker** for giving you a random email address from guerillamail
+
+.. code-block:: python
+    
+    kyaah.fk()
+
+Kyaah with token (OTP)
+----------------------
+
+To get an OTP code
+
+.. code-block:: python
+
+    import kyaah
+
+    print(kyaah.otp())
+
+You can also specify the length of numbers you want, by passing an argument of the range number you want in the function like:
+
+.. code-block:: python
+
+    import kyaah
+
+    print(kyaah.otp(12)) # for specifying the range number
+
+Link expire
+-----------
+
+This It really work for python app, and secret key must be provided along side with database for storing the session just like password.
+
+.. code-block:: python
+    
+    import kyaah
+
+    url = "https://kyaah.readthedocs.io"
+    tokenised_link = kyaah.Tokens.link(url)
+
+    payload = dict(
+        sender = "myemail@gmail.com",
+        receiver = ["receiver@gmail.com"],
+        subject = "Kyaah link age utility",
+        body = f"Hi! you can follow this link {url} and update your password, it will expire in 60 seconds. Thank you!",
+        password = "**********",
+    )
+
+    print(tokenised_link)
+    secret = tokenised_link[0]
+    data = tokenised_link[1]
+    
+    mail = kyaah.send(credentials=payload)
+    print(kyaah.Tokens.unlink(secret, data))

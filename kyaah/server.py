@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-It simplify mail servers stuffs with ease!
+Mail servers stuffs with ease!
 
 internal sample:
     >>> box = imaplib.IMAP4_SSL('imap.mail.microsoftonline.com', 993)

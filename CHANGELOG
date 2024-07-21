@@ -11,6 +11,7 @@ Change Log
     - Implemented a single `fetch` function for fetching mail (POP & IMAP), which replace previous ones:
         - `fetch_mail_POP`, and `fetch_mail_IMAP`
     - Internal arrangement suggestion/guess of mail server
+    - Fixed mail with page, to ensure it send content of the page not the page itself
 
 - 0.1.13 Release
 

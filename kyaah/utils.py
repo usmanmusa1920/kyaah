@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import json
 import math
 import random
@@ -146,6 +147,13 @@ class Tokens:
         d = IzItDanger.verify_token(secret_key, token)
         return d
     
+
+def vault(sender_env, password_env):
+    """This function handle accessing sender `mail address` and `password` from environment variable, all what you need is to put your `mail address environment variable` in place of your email address, like-wise the password too! and ensure you include `env` as a key in payload with value of `True`
+    """
+
+    return [os.environ.get(sender_env), os.environ.get(password_env)]
+
 
 class Faker:
     """Class that give you random email address"""

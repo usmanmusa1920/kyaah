@@ -2,9 +2,9 @@
 from . import Serve
 from . import Faker
 from . import Tokens
-from . import selector
 from rgbpy import log_style
-from .base import LOGGER, FetchPOP, FetchIMAP
+from .utils import vault
+from .base import LOGGER, BaseMail, FetchPOP, FetchIMAP
 
 
 def send(include: str = "plain", local: "False | True" = False, credentials: dict = None):
@@ -57,20 +57,26 @@ def send(include: str = "plain", local: "False | True" = False, credentials: dic
         >>> kyaah.send(include='page', credentials=payload)
     """
     
-    _em_ = credentials["sender"]
-    _t_ = _em_.split("@")[-1]
-    svr = _t_.split(".")[0]
-    
     try: env = credentials["env"]
     except: env = False
 
+    if env == True:
+        auth = vault(credentials["sender"], credentials["password"])
+        credentials["sender"] = auth[0]
+        credentials["password"] = auth[1]
+        
+    _em_ = credentials["sender"]
+    _t_ = _em_.split("@")[-1]
+    svr = _t_.split(".")[0]
     s_mail = Serve.mail(svr)
-    cls = selector(env=env)
 
-    base = cls(
+    if local == True: mail_server = "localhost"
+    else: mail_server = s_mail["server"][0]
+    
+    base = BaseMail(
         **credentials,
         # slicing the first index of the server list, even though it's only one item
-        server = s_mail["server"][0]
+        server = mail_server
     )
     
     if local == True:

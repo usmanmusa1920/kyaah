@@ -1,7 +1,13 @@
 Change Log
 ==========
 
-## 0.1.15 (21/july/2024)
+## 0.1.16 (22/july/2024)
+
+- 0.1.16 Release
+
+    - Fixed api(s) for retrieving sender credentials from environment variable
+    - Include the `aiosmtpd` library as kyaah dependency for testing mail locally
+    - Revised local smtp server. Since `The asyncore module is deprecated and will be removed in Python 3.12. The recommended replacement is asyncio import asyncore` by implementing cli command for starting local SMTP server
 
 - 0.1.15 Release
 

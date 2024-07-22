@@ -40,7 +40,7 @@
 from datetime import datetime
 
 __title__ = 'kyaah'
-__version__ = '0.1.15'
+__version__ = '0.1.16'
 __author__ = 'Usman Musa'
 __author_email__ = 'usmanmusa1920@gmail.com'
 __author_website__ = 'https://usmanmusa1920.github.io'
@@ -64,18 +64,6 @@ status_codes = {
 }
 
 
-def selector(env=None):
-    """Decide a class for `environment variable` for security purpose or not."""
-
-    if env:
-        cls = Vault
-    else:
-        cls = BaseMail
-    return cls
-
-
-from .base import BaseMail
-from .vault import Vault
 from .utils import Tokens
 from .utils import Faker
 from .server import Serve

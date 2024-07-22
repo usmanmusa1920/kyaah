@@ -30,6 +30,11 @@ setup(
     python_requires = '>=3.7',
     platforms='any',
     
+    # Use console_scripts to hook to a specific Python method (not a whole executable),
+    entry_points = {
+        'console_scripts': [f'{grep("__title__")}={grep("__title__")}.cli:kyaah_cli'],
+    },
+    
     url = grep('__url__'),
     download_url = 'https://pypi.org/project/kyaah',
     author = grep('__author__'),
@@ -68,6 +73,7 @@ setup(
         'rgbpy>=0.0.1',
         'geocoder>=1.38.1',
         'itsdangerous==0.24',
+        'aiosmtpd>=1.4.6',
     ],
     
     project_urls={

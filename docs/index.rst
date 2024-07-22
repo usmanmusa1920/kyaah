@@ -97,9 +97,9 @@ With the above configuration, you can now send your mail, by calling the **kyaah
 
 -   **Send local mail**
 
-    Kyaah provided functionality to test your mail locally. By first booting up the python mail server on a different terminal by::
+    Kyaah provided functionality to test your mail locally. By first booting up the mail server on terminal by::
 
-        python -m smtpd -c DebuggingServer -n localhost:1025
+        kyaah localhost
 
     and then open another terminal and run your python script/code by calling the send method and ensure to add **local** keyword argument by giving it value of **True**, like.
 
@@ -107,11 +107,11 @@ With the above configuration, you can now send your mail, by calling the **kyaah
 
         kyaah.send(local=True, credentials=payload)
 
-    If you want to boot up the python mail server with a different port, you are to include the port you want when booting the python mail server, is like to do:
+    If you want to boot up the python mail server with a different port, you are to include the port you want when booting the python mail server, by:
 
     .. code-block:: python
 
-        python -m smtpd -c DebuggingServer -n localhost:7000
+        kyaah localhost --port 7000
 
     After that, add a dictionary key **payload["port"]** giving it a value of the port number, like so::
 

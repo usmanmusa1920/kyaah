@@ -143,8 +143,12 @@ class BaseMail:
     def local_mail(self, port=1025):
         """Localhost mail"""
 
-        with smtplib.SMTP(self.server, port) as smtp:
-            smtp.sendmail(self.from_sender_addr, self.to_receiver, self.mail_msg)
+        try:
+            with smtplib.SMTP(self.server, port) as server:
+                server.sendmail(self.from_sender_addr, self.to_receiver, self.mail_msg)
+            log_style("Email sent locally successfully!")
+        except Exception as e:
+            log_style(f"Failed to send email: {e}", log="error")
 
     def send_mail(self, port=25):
         """Send mail with ssl security"""
@@ -250,7 +254,7 @@ class BaseMail:
         if file != "test" and type(file) != list:
             raise UnboundLocalError(f'`file` must be either `test` for testing, or list of page(s)')
 
-        if file.lower().strip() == "test":
+        if file == "test":
             dummy_page = f'''<!DOCTYPE html>
 <html lang="en">
 <head>

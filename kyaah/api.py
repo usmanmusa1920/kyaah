@@ -23,7 +23,7 @@ def send(include: str = "plain", local: "False | True" = False, credentials: dic
         >>> import kyaah
         
         >>> payload = dict(
-        >>>     sender = myemail@gmail.com,
+        >>>     sender = sender@gmail.com,
         >>>     receiver = ["receiver@gmail.com"],
         >>>     subject = "Hellow world!",
         >>>     body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
@@ -115,7 +115,7 @@ def fetch(maa: str = "pop", credentials: dict = None):
     Usage:
         >>> import kyaah
 
-        >>> payload = dict(sender="myemail@gmail.com", password="**********")
+        >>> payload = dict(sender="sender@gmail.com", password="**********")
         >>> f = kyaah.fetch(credentials=payload)
 
         >>> f.folder()

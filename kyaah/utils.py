@@ -108,7 +108,7 @@ class Tokens:
             >>> tokenised_link = kyaah.Tokens.link(url)
         
             >>> payload = dict(
-            >>>     sender = "myemail@gmail.com",
+            >>>     sender = "sender@gmail.com",
             >>>     receiver = ["receiver@gmail.com"],
             >>>     subject = "Kyaah link age utility",
             >>>     body = "Hi! you can follow this link {l} and update your password, it will expire in 60 seconds. Thank you!",

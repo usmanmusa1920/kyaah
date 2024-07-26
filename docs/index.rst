@@ -1,4 +1,3 @@
-
 Kyaah
 #####
 
@@ -44,7 +43,7 @@ To use kyaah, simply import the library and set payload, which include **sender*
     import kyaah
         
     payload = dict(
-        sender = "myemail@gmail.com",
+        sender = "sender@gmail.com",
         receiver = ["receiver@gmail.com"],
         subject = "Hellow world!",
         body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
@@ -52,6 +51,10 @@ To use kyaah, simply import the library and set payload, which include **sender*
     )
 
 With the above configuration, you can now send your mail, by calling the **kyaah.send** function with appropriate keyword arguments.
+
+.. note::
+
+    The password to use, is app password, take note that if you use your traditional mail password that you use to login, it won't give access to!
 
 -   **Send plain mail**
 
@@ -140,6 +143,8 @@ Table of content
 
 Useful links:
 -------------
+
+- `Documentations <https://kyaah.readthedocs.io>`_
 
 - `Repository <https://github.com/usmanmusa1920/kyaah>`_
 

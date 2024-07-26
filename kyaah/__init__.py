@@ -25,7 +25,7 @@
         >>> import kyaah
         
         >>> payload = dict(
-        >>>     sender = "myemail@gmail.com",
+        >>>     sender = "sender@gmail.com",
         >>>     receiver = ["receiver@gmail.com"],
         >>>     subject = "Hellow world!",
         >>>     body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",

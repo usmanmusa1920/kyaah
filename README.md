@@ -23,7 +23,7 @@ After that, simply import the library and set payload, which include `sender`, `
     import kyaah
         
     payload = dict(
-        sender = "myemail@gmail.com",
+        sender = "sender@gmail.com",
         receiver = ["receiver@gmail.com"],
         subject = "Hellow world!",
         body = "Lorem ipsum dolor sit amet adipisicing elit, rerum voluptate ipsum volupt.",
@@ -32,6 +32,9 @@ After that, simply import the library and set payload, which include `sender`, `
 
     kyaah.send(credentials=payload)
 ```
+
+> **Note**
+> The password to use, is app password, take note that if you use your traditional mail password that you use to login, it won't give access to!
 
 ## Useful links
 

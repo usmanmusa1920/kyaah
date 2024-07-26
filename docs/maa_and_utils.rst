@@ -61,7 +61,7 @@ Simple usage of kyaah with POP3. The `fetch` method it return a list of the avai
 
     from kyaah import fetch
 
-    payload = dict(sender="myemail@gmail.com", password="**********")
+    payload = dict(sender="sender@gmail.com", password="**********")
 
     f = fetch(credentials=payload)
     r = f.fetch()
@@ -84,7 +84,7 @@ Simple usage of kyaah with IMAP. The `folder` method it return list of mail fold
 
     from kyaah import fetch
 
-    payload = dict(sender="myemail@gmail.com", password="**********")
+    payload = dict(sender="sender@gmail.com", password="**********")
 
     f = fetch(maa="imap", credentials=payload)
     r = f.folder()
@@ -196,7 +196,7 @@ This It really work for python app, and secret key must be provided along side w
     tokenised_link = kyaah.Tokens.link(url)
 
     payload = dict(
-        sender = "myemail@gmail.com",
+        sender = "sender@gmail.com",
         receiver = ["receiver@gmail.com"],
         subject = "Kyaah link age utility",
         body = f"Hi! you can follow this link {url} and update your password, it will expire in 60 seconds. Thank you!",

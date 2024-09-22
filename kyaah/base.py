@@ -101,17 +101,17 @@ class BaseMail:
         # `subj` variable of mail_msg method of this class
         # which is `Subject: `
 
-        msg['From'] = self.from_sender_addr
         # The From field indicates the sender’s address i.e. who sent the e-mail.
+        msg['From'] = self.from_sender_addr
 
-        msg['To'] = self.to_receiver
         # The To field indicates the recipient’s address i.e. to whom the e-mail is sent.
+        msg['To'] = self.to_receiver
 
-        msg['Subject'] = self.mail_msg.split('\n')[0][9:]
         # The Subject field indicates the purpose of e-mail. It should be precise and to the point.
+        msg['Subject'] = self.mail_msg.split('\n')[0][9:]
 
-        msg['Date'] = email.utils.formatdate(localtime=True)
         # The Date field indicates the date when the e-mail was sent.
+        msg['Date'] = email.utils.formatdate(localtime=True)
 
         msg['Message-ID'] = email.utils.make_msgid()
 
@@ -133,8 +133,7 @@ class BaseMail:
         # sys.stdout.buffer.write(msg.as_bytes())
 
     def mail_open(self, msg, port):
-        """This open the connection, and login to email address using email address provided together with password/app_password
-        """
+        """This open the connection, and login to email address using email address provided together with the password"""
 
         with smtplib.SMTP_SSL(self.server, port) as smtp:
             smtp.login(self.from_sender_addr, self.password_env)
@@ -257,16 +256,16 @@ class BaseMail:
         if file == "test":
             dummy_page = f'''<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1 style="color:SlateGray;">Hello world mail from {self.from_sender_addr}</h1>
-  <p style="color:brown;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum voluptate ipsum voluptatum doloribus, incidunt totam doloremque quae quibusdam exercitationem sapiente vel veritatis consequuntur earum et. Quod nobis minus minima repellat.</p>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kyaah test email with html page</title>
+    </head>
+    <body>
+        <h1 style="color:SlateGray;">Hello world mail from {self.from_sender_addr}</h1>
+        <p style="color:brown;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum voluptate ipsum voluptatum doloribus, incidunt totam doloremque quae quibusdam exercitationem sapiente vel veritatis consequuntur earum et. Quod nobis minus minima repellat.</p>
+    </body>
 </html>
 '''
             msg.add_alternative(dummy_page, subtype='html')
@@ -276,8 +275,16 @@ class BaseMail:
                     html_f = f_html.read()
                 msg.add_attachment(html_f, subtype='html')
         self.mail_open(msg, port)
-        
-        
+
+    def status(self):
+        """Mail staus"""
+        return "<Status: 200>"
+    
+    def services(self):
+        """Mail services"""
+        return "{'mail_server': 'gmail', 'port': 457}"
+    
+
 def ok(msg):
     """It is ok"""
     

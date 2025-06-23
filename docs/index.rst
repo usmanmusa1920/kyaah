@@ -98,6 +98,69 @@ With the above configuration, you can now send your mail, by calling the **kyaah
 
         kyaah.send(include="page", credentials=payload)
 
+    **Send good well looking HTML page(s) as mail**
+    
+    Below is a code snippets for sending good well looking html page as mail, feel free to change the below image address (in html page file content), but make sure it is accessable publicly, like.
+
+    .. code-block:: python
+
+        # for sending your good well looking html page (not testing)
+        html_file_warn = f'''
+        <!DOCTYPE html>
+        <html>
+        <body style="margin:0; padding:0; background:#3b507e; font-family:Arial, sans-serif">
+            <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; background:#ffffff">
+            <tr>
+                <td style="background:#03153c; color:#ffffff; text-align:center; padding:20px">
+                <h1 style="margin:0">Kyaah - Email Utility Package</h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px 20px; color:#03153c; background:#ffffff">
+                <p>
+                    <strong>Dear Sir/Ma,</strong><br><br>
+                    Kyaah abstract away cognitive over-head of sending SMTP, POP3, and IMAP mail, together with other mailing operations things like, mail with file, tokens etc.<br><br>
+                    Kind Regards,<br>
+                    Kyaah Software
+                </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="padding:0 20px 20px 20px">
+                <img src="https://github.com/usmanmusa1920/kyaah/raw/master/docs/_static/logo.png" style="width:100%; max-width:300px; border-radius:8px">
+                </td>
+            </tr>
+            <tr>
+                <td style="background:#03153c; color:#ffffff; text-align:center; padding:10px">
+                <small>© 2022 Kyaah - Email Utility Package</small>
+                <br>
+                <small>
+                    <a href="https://kyaah.readthedocs.io" style="color:#ffffff;">Docs</a>
+                    <a style="color:#ffffff;">|</a>
+                    <a href="https://github.com/usmanmusa1920/kyaah" style="color:#ffffff;">Repo</a>
+                    <a style="color:#ffffff;">|</a>
+                    <a href="https://pypi.org/project/kyaah" style="color:#ffffff;">PYPI</a>
+                </small>
+                </td>
+            </tr>
+            </table>
+        </body>
+        </html>
+        '''
+
+        import os
+        
+        flag_file = f"my_html_file_page.txt"
+
+        with open(flag_file, "w") as f_write:
+            f_write.write(html_file_warn)
+            
+        payload["subject"] = "Kyaah - Good Well Looking HTML Mail"
+        payload["body"] = ""
+        payload["page"] = [os.path.abspath(flag_file)]
+
+        kyaah.send(include="page", credentials=payload)
+
 -   **Send local mail**
 
     Kyaah provided functionality to test your mail locally. By first booting up the mail server on terminal by::
